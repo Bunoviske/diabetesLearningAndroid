@@ -2,25 +2,14 @@ package com.example.bruno.diabeteslearning;
 
 import android.graphics.BitmapFactory;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.util.Log;
-import android.view.SurfaceView;
-import android.util.DisplayMetrics;
-import android.view.WindowManager;
+
+import com.example.bruno.diabeteslearning.ImagePaint.ImageViewCanvas;
+
 import org.opencv.android.OpenCVLoader;
-import org.opencv.core.Mat;
 
 public class MainActivity extends AppCompatActivity {
 
