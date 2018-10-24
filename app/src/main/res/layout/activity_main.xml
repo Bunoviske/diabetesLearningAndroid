@@ -5,27 +5,14 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="16dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp"
     tools:context=".MainActivity">
 
-    <org.opencv.android.JavaCameraView
+    <com.example.bruno.diabeteslearning.ImageViewCanvas
+        android:id="@+id/paintView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/java_camera_view"
-        />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/takePicButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:backgroundTint="?android:attr/colorEdgeEffect"
-        app:srcCompat="@android:drawable/ic_menu_camera"
-        tools:layout_editor_absoluteX="163dp"
-        tools:layout_editor_absoluteY="461dp" />
+        android:layout_height="396dp"
+        android:scaleType="fitXY"
+ />
 
 
 </android.support.constraint.ConstraintLayout>
