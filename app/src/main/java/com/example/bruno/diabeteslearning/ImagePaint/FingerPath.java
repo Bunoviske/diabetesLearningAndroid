@@ -13,4 +13,8 @@ public class FingerPath {
         this.strokeWidth = strokeWidth;
         this.path = path;
     }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
 }

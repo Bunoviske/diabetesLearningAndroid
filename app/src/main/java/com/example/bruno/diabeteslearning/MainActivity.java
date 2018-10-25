@@ -51,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
         imageViewCanvas.init(bitmap);
 
-
-
     }
     @Override
     protected void onResume(){
