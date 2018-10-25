@@ -1,4 +1,6 @@
 package com.example.bruno.diabeteslearning.ImagePaint;
+import com.example.bruno.diabeteslearning.Carbohydrate.CarboDetector;
+import com.example.bruno.diabeteslearning.ImgProc.ContourProcessing;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,17 +14,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import java.lang.Math;
 
-import com.example.bruno.diabeteslearning.ImgProc.ContourProcessing;
 
-import org.opencv.core.Core;
-import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
-import org.opencv.imgproc.Imgproc;
-
-
-
 import java.util.ArrayList;
-import java.util.List;
 
 
 
@@ -40,6 +34,7 @@ public class ImageViewCanvas extends View {
     private boolean isContourClosed = false;
 
     private ContourProcessing contourProcessing = new ContourProcessing();
+    private CarboDetector carboDetector = new CarboDetector();
 
     //pontos de referencia conforme o usuario move o dedo (usados para rastreamento e
     //autoComplete do contorno)
@@ -71,7 +66,7 @@ public class ImageViewCanvas extends View {
 
     }
 
-    public void init(Bitmap bitmap) {
+    public void init(Bitmap bitmap, float totalFoodWeigh) {
 
         mBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         firstBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
@@ -81,6 +76,8 @@ public class ImageViewCanvas extends View {
 //        int height = metrics.heightPixels;
 //        int width = metrics.widthPixels;
 //        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        carboDetector.setTotalFoodWeigh(totalFoodWeigh);
 
     }
 
@@ -119,10 +116,14 @@ public class ImageViewCanvas extends View {
 
         double area = contourProcessing.getFoodContourArea();
         contourProcessing.clearContour();
+        carboDetector.saveFoodRegion((int)area,"NomeComida");
         Log.i(TAG,"Area:" + area);
 
         if (area < 500.00){
             clearLastPath();
+        }
+        else{
+            //TODO - CHAMAR DIALOG TOMAS PARA INSERIR NOME DO ALIMENTO
         }
     }
 

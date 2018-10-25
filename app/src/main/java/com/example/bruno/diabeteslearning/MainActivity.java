@@ -49,7 +49,9 @@ public class MainActivity extends AppCompatActivity {
 
         bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
 
-        imageViewCanvas.init(bitmap);
+        //TODO - PEGAR PESO TOTAL DOS ALIMENTOS
+
+        imageViewCanvas.init(bitmap,  150);
 
     }
     @Override
