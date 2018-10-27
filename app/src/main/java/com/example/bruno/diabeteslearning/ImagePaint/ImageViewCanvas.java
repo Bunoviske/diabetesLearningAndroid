@@ -29,12 +29,12 @@ public class ImageViewCanvas extends View {
     public static final int GRAY_COLOR = Color.GRAY;
 
     private static final float TOUCH_TOLERANCE = 4;
-    private static final double FINISHED_CONTOUR_TOLERANCE = 30;
+    private static final double FINISHED_CONTOUR_TOLERANCE = 40;
     private boolean isAutoCompleteAvailable = false;
     private boolean isContourClosed = false;
 
     private ContourProcessing contourProcessing = new ContourProcessing();
-    private CarboDetector carboDetector = new CarboDetector();
+    //private CarboDetector carboDetector = new CarboDetector();
 
     //pontos de referencia conforme o usuario move o dedo (usados para rastreamento e
     //autoComplete do contorno)
@@ -77,7 +77,7 @@ public class ImageViewCanvas extends View {
 //        int width = metrics.widthPixels;
 //        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
-        carboDetector.setTotalFoodWeigh(totalFoodWeigh);
+        //carboDetector.setTotalFoodWeigh(totalFoodWeigh);
 
     }
 
@@ -116,7 +116,7 @@ public class ImageViewCanvas extends View {
 
         double area = contourProcessing.getFoodContourArea();
         contourProcessing.clearContour();
-        carboDetector.saveFoodRegion((int)area,"NomeComida");
+        //carboDetector.saveFoodRegion((int)area,"NomeComida");
         Log.i(TAG,"Area:" + area);
 
         if (area < 500.00){
