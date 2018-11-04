@@ -2,7 +2,7 @@ package com.example.bruno.diabeteslearning.ImagePaint;
 
 import android.graphics.Path;
 
-public class FingerPath {
+class FingerPath {
 
     public int color;
     public int strokeWidth;

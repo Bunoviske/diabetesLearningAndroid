@@ -45,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
         //altura dp declarada no arquivo xml. N consegui extrair dinamicamente
         int heightDp = 396;
-        int height = Math.round(heightDp * (metrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        int imageHeight = Math.round(heightDp * (metrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
 
-        bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
+        bitmap = Bitmap.createScaledBitmap(bitmap, width, imageHeight, true);
 
         //TODO - PEGAR PESO TOTAL DOS ALIMENTOS
 

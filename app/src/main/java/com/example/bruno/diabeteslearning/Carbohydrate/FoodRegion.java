@@ -1,6 +1,6 @@
 package com.example.bruno.diabeteslearning.Carbohydrate;
 
-public class FoodRegion {
+class FoodRegion {
 
     public FoodRegion(int regionPixeis, float carboRelation, float foodDensity, String foodName) {
         this.regionPixeis = regionPixeis;

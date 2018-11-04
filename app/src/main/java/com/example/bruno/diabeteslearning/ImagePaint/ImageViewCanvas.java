@@ -1,6 +1,7 @@
 package com.example.bruno.diabeteslearning.ImagePaint;
 import com.example.bruno.diabeteslearning.Carbohydrate.CarboDetector;
 import com.example.bruno.diabeteslearning.ImgProc.ContourProcessing;
+import com.example.bruno.diabeteslearning.UserInput.FoodsDialogList;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -8,11 +9,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.support.v4.app.FragmentTransaction;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import java.lang.Math;
+import android.app.DialogFragment;
 
 
 import org.opencv.core.Point;
@@ -34,6 +37,7 @@ public class ImageViewCanvas extends View {
     private boolean isContourClosed = false;
 
     private ContourProcessing contourProcessing = new ContourProcessing();
+    private FoodsDialogList foodsDialogList = new FoodsDialogList(this);
     //private CarboDetector carboDetector = new CarboDetector();
 
     //pontos de referencia conforme o usuario move o dedo (usados para rastreamento e
@@ -72,10 +76,6 @@ public class ImageViewCanvas extends View {
         firstBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
         mCanvas = new Canvas(mBitmap);
 
-//        mCanvas.drawColor(backgroundColor);
-//        int height = metrics.heightPixels;
-//        int width = metrics.widthPixels;
-//        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
         //carboDetector.setTotalFoodWeigh(totalFoodWeigh);
 
@@ -93,6 +93,10 @@ public class ImageViewCanvas extends View {
         mBitmap = mBitmapBackup.copy(Bitmap.Config.ARGB_8888, true);
         mCanvas = new Canvas(mBitmap);
         invalidate();
+    }
+
+    public void callClearLastPath(){
+        clearLastPath();
     }
 
     @Override
@@ -122,9 +126,7 @@ public class ImageViewCanvas extends View {
         if (area < 500.00){
             clearLastPath();
         }
-        else{
-            //TODO - CHAMAR DIALOG TOMAS PARA INSERIR NOME DO ALIMENTO
-        }
+        else foodsDialogList.run(super.getContext());
     }
 
     private void touchStart(float x, float y) {
