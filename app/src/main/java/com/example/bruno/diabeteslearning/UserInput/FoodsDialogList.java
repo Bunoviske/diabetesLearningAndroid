@@ -19,7 +19,7 @@ import com.example.bruno.diabeteslearning.MainActivity;
 
 public class FoodsDialogList {
 
-    private CharSequence selectedItem;
+    private CharSequence selectedItem = "";
     private ImageViewCanvas imageViewCanvas;
 
     public FoodsDialogList(ImageViewCanvas imageView){
@@ -49,8 +49,19 @@ public class FoodsDialogList {
         builder.setPositiveButton("OK", new OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int noUse) {
-                //TODO - SALVAR NOME
-                dialog.dismiss();
+
+                Log.i("Dialog_ok", selectedItem.toString());
+
+                if (selectedItem.toString() != ""){
+
+                    //TODO - SALVAR NOME
+                    dialog.dismiss();
+                    selectedItem = "";
+                }
+                //dialog fecha quando item nao é selecionado e "ok" é clicado
+                else imageViewCanvas.callClearLastPath();
+
+
             }
         });
         builder.setNegativeButton("CANCELAR", new OnClickListener() {
@@ -65,6 +76,7 @@ public class FoodsDialogList {
         });
         AlertDialog alert = builder.create();
         alert.show();
+
     }
 }
 
