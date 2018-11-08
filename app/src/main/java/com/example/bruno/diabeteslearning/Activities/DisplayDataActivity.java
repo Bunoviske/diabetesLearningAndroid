@@ -10,16 +10,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.widget.TextView;
 
+import com.example.bruno.diabeteslearning.Carbohydrate.CarboDetector;
 import com.example.bruno.diabeteslearning.R;
 
 public class DisplayDataActivity extends Activity {
+
+    private CarboDetector carboDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_carbohydrate_data);
 
+        carboDetector = new CarboDetector(
+                getIntent().getStringArrayListExtra("selectedFoodsName"),
+                getIntent().getIntegerArrayListExtra("selectedFoodsArea"));
 
+        //TODO - PEGAR PESO TOTAL DOS ALIMENTOS E RELACAO CHO:INSULINA
     }
-
 }

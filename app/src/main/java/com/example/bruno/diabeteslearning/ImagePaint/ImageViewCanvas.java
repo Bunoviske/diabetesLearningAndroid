@@ -1,7 +1,7 @@
 package com.example.bruno.diabeteslearning.ImagePaint;
 import com.example.bruno.diabeteslearning.Carbohydrate.CarboDetector;
 import com.example.bruno.diabeteslearning.ImgProc.ContourProcessing;
-import com.example.bruno.diabeteslearning.UserInput.FoodsDialogList;
+import com.example.bruno.diabeteslearning.UserIO.FoodsDialogList;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,13 +9,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import java.lang.Math;
-import android.app.DialogFragment;
 
 
 import org.opencv.core.Point;
@@ -27,18 +26,18 @@ public class ImageViewCanvas extends View {
 
     private static String TAG = "ImageViewCanvas";
 
-    public static int BRUSH_SIZE = 10; //espessura da linha
-    public static final int RED_COLOR = Color.RED;
-    public static final int GRAY_COLOR = Color.GRAY;
+    private static int BRUSH_SIZE = 10; //espessura da linha
+    private static final int RED_COLOR = Color.RED;
+    private static final int GRAY_COLOR = Color.GRAY;
 
     private static final float TOUCH_TOLERANCE = 4;
     private static final double FINISHED_CONTOUR_TOLERANCE = 40;
     private boolean isAutoCompleteAvailable = false;
     private boolean isContourClosed = false;
 
-    private ContourProcessing contourProcessing = new ContourProcessing();
-    private FoodsDialogList foodsDialogList = new FoodsDialogList(this);
-    //private CarboDetector carboDetector = new CarboDetector();
+    private ContourProcessing contourProcessing;
+    private FoodsDialogList foodsDialogList;
+    private ArrayList<Integer> selectedFoodsArea = new ArrayList<>();
 
     //pontos de referencia conforme o usuario move o dedo (usados para rastreamento e
     //autoComplete do contorno)
@@ -70,14 +69,26 @@ public class ImageViewCanvas extends View {
 
     }
 
-    public void init(Bitmap bitmap, float totalFoodWeigh) {
+
+    public void removeSpecificAreaFromPath(final int index){selectedFoodsArea.remove(index);}
+
+    public void callClearSpecificPath(final int index) { clearSpecificPath(index); }
+
+    public void callClearLastPath(){clearLastPath();}
+
+    public ArrayList<Integer> getSelectedFoodsArea() {return selectedFoodsArea; }
+
+    public ArrayList<String> getSelectedFoodsName() {
+        return foodsDialogList.getSelectedFoodsName();
+    }
+
+    public void init(Bitmap bitmap, RecyclerView recyclerView) {
 
         mBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         firstBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
         mCanvas = new Canvas(mBitmap);
-
-
-        //carboDetector.setTotalFoodWeigh(totalFoodWeigh);
+        contourProcessing = new ContourProcessing();
+        foodsDialogList = new FoodsDialogList(this,selectedFoodsArea,recyclerView);
 
     }
 
@@ -86,6 +97,16 @@ public class ImageViewCanvas extends View {
         mBitmap = firstBitmap.copy(Bitmap.Config.ARGB_8888, true);
         mCanvas = new Canvas(mBitmap);
         invalidate();
+
+
+    }
+        // TODO - DANDO ERRADO
+    private void clearSpecificPath(final int index){
+        paths.remove(index);
+        mBitmap = mBitmapBackup.copy(Bitmap.Config.ARGB_8888, true);
+        mCanvas = new Canvas(mBitmap);
+        invalidate();
+
     }
 
     private void clearLastPath(){
@@ -93,11 +114,9 @@ public class ImageViewCanvas extends View {
         mBitmap = mBitmapBackup.copy(Bitmap.Config.ARGB_8888, true);
         mCanvas = new Canvas(mBitmap);
         invalidate();
+
     }
 
-    public void callClearLastPath(){
-        clearLastPath();
-    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -120,13 +139,19 @@ public class ImageViewCanvas extends View {
 
         double area = contourProcessing.getFoodContourArea();
         contourProcessing.clearContour();
-        //carboDetector.saveFoodRegion((int)area,"NomeComida");
+
+
         Log.i(TAG,"Area:" + area);
 
         if (area < 500.00){
             clearLastPath();
+            //clearSpecificPath(0);
         }
-        else foodsDialogList.run(super.getContext());
+        else {
+            //area é passada para o dialog pois ele que controla se o nome do alimento é inserido
+            //na lista, então ele deve controlar tambem se a area será inserida.
+            foodsDialogList.run(super.getContext(), (int)area);
+        }
     }
 
     private void touchStart(float x, float y) {

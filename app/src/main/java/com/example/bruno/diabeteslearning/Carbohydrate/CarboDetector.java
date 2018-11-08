@@ -10,11 +10,18 @@ public class CarboDetector {
     private float totalFoodWeigh;
     private float totalCarbo;
 
-    private ArrayList<FoodRegion> foods;
+    private ArrayList<FoodRegion> foods = new ArrayList<>();
     private float constant;
 
     private static String TAG = "CarboDetector";
 
+    public CarboDetector(ArrayList<String> selectedFoodsName,
+                         ArrayList<Integer> selectedFoodsArea){
+
+        for (int i = 0; i < selectedFoodsName.size(); i++){
+            saveFoodRegion(selectedFoodsArea.get(i), selectedFoodsName.get(i));
+        }
+    }
 
     public void setTotalFoodWeigh(float totalFoodWeigh) {
         this.totalFoodWeigh = totalFoodWeigh;
