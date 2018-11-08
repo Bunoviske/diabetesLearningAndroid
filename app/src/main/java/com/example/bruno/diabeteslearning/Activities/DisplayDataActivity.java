@@ -1,24 +1,16 @@
 package com.example.bruno.diabeteslearning.Activities;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.bruno.diabeteslearning.Carbohydrate.CarboDetector;
 import com.example.bruno.diabeteslearning.Carbohydrate.FoodRegion;
-import com.example.bruno.diabeteslearning.MainActivity;
 import com.example.bruno.diabeteslearning.R;
 
 import java.util.ArrayList;
@@ -106,7 +98,7 @@ public class DisplayDataActivity extends Activity {
         imageButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //TODO - SALVAR NO FIREBASE A CLASSE MEALPROPERTIES QUANDO SAIR DA PAGINA
-//                Intent activity = new Intent(MainActivity.super.getBaseContext(),
+//                Intent activity = new Intent(ImageActivity.super.getBaseContext(),
 //                startActivity(activity);
             }
         });

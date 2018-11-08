@@ -1,13 +1,9 @@
-package com.example.bruno.diabeteslearning;
+package com.example.bruno.diabeteslearning.Activities;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.graphics.BitmapFactory;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,20 +11,17 @@ import android.util.DisplayMetrics;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 
-import com.example.bruno.diabeteslearning.Activities.DisplayDataActivity;
-import com.example.bruno.diabeteslearning.Activities.PreferencesActivity;
 import com.example.bruno.diabeteslearning.ImagePaint.ImageViewCanvas;
+import com.example.bruno.diabeteslearning.R;
 
 import org.opencv.android.OpenCVLoader;
 
-import java.io.Serializable;
 
-public class MainActivity extends AppCompatActivity {
+public class ImageActivity extends AppCompatActivity {
 
-    private static String TAG = "MainActivity";
+    private static String TAG = "ImageActivity";
     private ImageViewCanvas imageViewCanvas;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -125,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         ImageButton button = findViewById(R.id.nextPageButtonMainActivity);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent activity = new Intent(MainActivity.super.getBaseContext(),
+                Intent activity = new Intent(ImageActivity.super.getBaseContext(),
                         DisplayDataActivity.class);
                 activity.putStringArrayListExtra("selectedFoodsName",
                         imageViewCanvas.getSelectedFoodsName());

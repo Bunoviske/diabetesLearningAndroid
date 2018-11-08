@@ -12,10 +12,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.example.bruno.diabeteslearning.MainActivity;
 import com.example.bruno.diabeteslearning.R;
 
-public class HistoryActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     private final int MY_PERMISSIONS_REQUEST_CAMERA = 101;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
@@ -57,7 +56,7 @@ public class HistoryActivity extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            Intent i = new Intent(this, MainActivity.class);
+            Intent i = new Intent(this, ImageActivity.class);
             i.putExtra("bitmap", imageBitmap);
             startActivity(i);
         }
