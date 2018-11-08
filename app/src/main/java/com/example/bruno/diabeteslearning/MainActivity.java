@@ -3,6 +3,7 @@ package com.example.bruno.diabeteslearning;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.bruno.diabeteslearning.Activities.DisplayDataActivity;
 import com.example.bruno.diabeteslearning.Adapters.FoodsListViewAdapter;
@@ -90,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setButton(){
-        Button button = findViewById(R.id.nextPageButton);
+        ImageButton button = findViewById(R.id.nextPageButtonMainActivity);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent activity = new Intent(MainActivity.super.getBaseContext(),
@@ -98,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 activity.putStringArrayListExtra("selectedFoodsName",
                         imageViewCanvas.getSelectedFoodsName());
                 activity.putIntegerArrayListExtra("selectedFoodsArea",
-                        imageViewCanvas.getSelectedFoodsArea())
+                        imageViewCanvas.getSelectedFoodsArea());
                 startActivity(activity);
             }
         });

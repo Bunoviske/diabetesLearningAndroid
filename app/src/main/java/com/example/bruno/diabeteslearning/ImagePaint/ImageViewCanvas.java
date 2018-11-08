@@ -145,7 +145,6 @@ public class ImageViewCanvas extends View {
 
         if (area < 500.00){
             clearLastPath();
-            //clearSpecificPath(0);
         }
         else {
             //area é passada para o dialog pois ele que controla se o nome do alimento é inserido
