@@ -9,21 +9,31 @@
 
     <com.example.bruno.diabeteslearning.ImagePaint.ImageViewCanvas
         android:id="@+id/paintView"
-        android:layout_width="match_parent"
-        android:layout_height="396dp"
-         />
+        android:layout_width="wrap_content"
+        android:layout_height="401dp" />
 
     <Button
         android:id="@+id/nextPageButton"
-        android:layout_width="46dp"
-        android:layout_height="41dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="60dp"
+        android:layout_height="53dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginRight="16dp"
         android:text=">"
         android:textColor="@android:color/background_light"
         android:textSize="18sp"
-        tools:layout_editor_absoluteX="321dp"
-        tools:layout_editor_absoluteY="509dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/foodsListView"
+        android:layout_width="291dp"
+        android:layout_height="156dp"
+
+        android:layout_marginBottom="6dp"
+        android:layout_marginRight="84dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>
