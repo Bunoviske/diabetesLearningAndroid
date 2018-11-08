@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">DiabetesLearning</string>
     <string name="action_settings">Settings</string>
+
+    //******************STRINGS SEM INTERAÇAO COM USUARIO*************//
+    <string name="pref_key">preferences</string>
+    <string name="pref_name_key">preference_name</string>
+    <string name="pref_email_key">preference_email</string>
+
+
+    //******************STRINGS PREFERENCE FRAGMENT/ACTIVITY*************//
+    <string name="pref_name_title">Digite seu nome completo</string>
+    <string name="pref_name_description">Nome</string>
+    <string name="pref_email_title">Digite seu email</string>
+    <string name="pref_email_description">Email</string>
 </resources>

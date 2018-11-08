@@ -23,7 +23,8 @@
         android:textColor="@android:color/background_light"
         android:textSize="18sp"
         tools:layout_editor_absoluteX="321dp"
-        tools:layout_editor_absoluteY="509dp" />
+        tools:layout_editor_absoluteY="509dp"
+        android:onClick="takePictureButtonCallback"/>
 
 
 </android.support.constraint.ConstraintLayout>

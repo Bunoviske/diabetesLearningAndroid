@@ -109,9 +109,10 @@ public class ImageViewCanvas extends View {
             mPaint.setMaskFilter(null);
             mCanvas.drawPath(fp.path, mPaint);
         }
-        canvas.drawBitmap(mBitmap, 0, 0,null);
-        canvas.restore();
-
+        if(mBitmap != null){
+            canvas.drawBitmap(mBitmap, 0, 0,null);
+            canvas.restore();
+        }
     }
 
     private void getContourArea(){
