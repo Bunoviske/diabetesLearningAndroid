@@ -1,6 +1,6 @@
 package com.example.bruno.diabeteslearning.Carbohydrate;
 
-class FoodRegion {
+public class FoodRegion {
 
     public FoodRegion(int regionPixeis, float carboRelation, float foodDensity, String foodName) {
         this.regionPixeis = regionPixeis;
@@ -11,7 +11,7 @@ class FoodRegion {
 
     //TODO - variaveis a serem ENVIADAS para firebase
     public int regionPixeis;
-    public float weigh;
+    public float weight;
     public float carbo;
     public String foodName;
 

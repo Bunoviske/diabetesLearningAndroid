@@ -7,15 +7,16 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.bruno.diabeteslearning.Activities.DisplayDataActivity;
 import com.example.bruno.diabeteslearning.Activities.PreferencesActivity;
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static String TAG = "MainActivity";
     private ImageViewCanvas imageViewCanvas;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     static {
         if (OpenCVLoader.initDebug()){
@@ -48,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setButton();
+        setListView();
 
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
         Intent preferences_intent = new Intent(this, PreferencesActivity.class);
@@ -84,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
             //TODO - PEGAR PESO TOTAL DOS ALIMENTOS
 
-            imageViewCanvas.init(bitmap,  150);
+            imageViewCanvas.init(bitmap,  mRecyclerView);
 
         } else{
 
@@ -92,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
 
     @Override
     protected void onResume(){
@@ -105,7 +109,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void setListView() {
+        mRecyclerView = findViewById(R.id.foodsListView);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
 
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+    }
+
+    private void setButton(){
+        ImageButton button = findViewById(R.id.nextPageButtonMainActivity);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent activity = new Intent(MainActivity.super.getBaseContext(),
+                        DisplayDataActivity.class);
+                activity.putStringArrayListExtra("selectedFoodsName",
+                        imageViewCanvas.getSelectedFoodsName());
+                activity.putIntegerArrayListExtra("selectedFoodsArea",
+                        imageViewCanvas.getSelectedFoodsArea());
+                startActivity(activity);
+            }
+        });
+    }
 
     //public native String stringFromJNI();
 }
