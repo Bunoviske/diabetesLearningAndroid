@@ -1,7 +1,9 @@
 package com.example.bruno.diabeteslearning.Activities;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -94,7 +96,7 @@ public class DisplayDataActivity extends Activity {
 
 
     private void setButton(){
-        ImageButton imageButton = findViewById(R.id.nextPageButtonDisplayActivity);
+        FloatingActionButton imageButton = findViewById(R.id.nextPageButtonDisplayActivity);
         imageButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //TODO - SALVAR NO FIREBASE A CLASSE MEALPROPERTIES QUANDO SAIR DA PAGINA

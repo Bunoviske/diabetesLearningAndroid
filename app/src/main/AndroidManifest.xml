@@ -3,30 +3,50 @@
     package="com.example.bruno.diabeteslearning">
 
     <application
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
+
         <activity
             android:name=".Activities.ImageActivity"
+            android:parentActivityName=".Activities.MainActivity"
+            android:allowBackup="true"
+
+            android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
 
+
         </activity>
+
         <activity
             android:name=".Activities.DisplayDataActivity"
             android:parentActivityName=".Activities.ImageActivity"
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
+
+
         </activity>
 
-        <activity android:name=".Activities.PreferencesActivity"
-            android:parentActivityName=".Activities.ImageActivity"></activity>
+        <activity
+            android:name=".Activities.PreferencesActivity"
+            android:parentActivityName=".Activities.ImageActivity"
+            android:allowBackup="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
 
-        <activity android:name=".Activities.MainActivity"
-            android:parentActivityName=".Activities.ImageActivity">
+
+        </activity>
+
+        <activity
+            android:name=".Activities.MainActivity"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

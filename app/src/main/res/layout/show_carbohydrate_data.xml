@@ -3,15 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".Activities.DisplayDataActivity">
 
 
     <TextView
         android:id="@+id/dataDisplayView"
         android:layout_width="295dp"
         android:layout_height="352dp"
-        android:layout_marginBottom="60dp"
-        android:layout_marginRight="44dp"
+        android:layout_marginBottom="96dp"
+        android:layout_marginRight="56dp"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
@@ -20,11 +21,12 @@
         android:id="@+id/carboRelation"
         android:layout_width="53dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="500dp"
-        android:layout_marginRight="192dp"
+        android:layout_marginBottom="525dp"
+        android:layout_marginRight="212dp"
         android:ems="10"
         android:imeOptions="actionNext"
         android:inputType="number"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
@@ -32,43 +34,43 @@
         android:id="@+id/totalWeight"
         android:layout_width="75dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="440dp"
-        android:layout_marginRight="144dp"
+        android:layout_marginBottom="476dp"
+        android:layout_marginRight="164dp"
         android:ems="10"
         android:imeOptions="actionDone"
         android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
-    <ImageButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/nextPageButtonDisplayActivity"
-        android:layout_width="57dp"
-        android:layout_height="39dp"
+        android:layout_width="54dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:layout_marginRight="36dp"
-        android:background="@color/colorPrimary"
+        android:layout_marginRight="28dp"
+        android:src="@drawable/ic_baseline_navigate_next_24px"
+        app:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:src="@drawable/ic_baseline_navigate_next_24px" />
+        app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
         android:id="@+id/pesoTotalTextView"
         android:layout_width="119dp"
         android:layout_height="28dp"
-        android:layout_marginBottom="448dp"
-        android:layout_marginRight="212dp"
-        android:text="Peso total (g)"
+        android:layout_marginBottom="484dp"
+        android:layout_marginRight="232dp"
+        android:text="Peso total (g):"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:text="Peso total (g)" />
+        tools:text="Peso total (g):" />
 
     <TextView
         android:id="@+id/relacaoTextView"
         android:layout_width="119dp"
         android:layout_height="28dp"
-        android:layout_marginBottom="500dp"
-        android:layout_marginRight="212dp"
+        android:layout_marginBottom="532dp"
+        android:layout_marginRight="232dp"
         android:text="Relação 1:"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"

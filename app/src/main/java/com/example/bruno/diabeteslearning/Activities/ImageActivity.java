@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -42,7 +43,7 @@ public class ImageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.image_activity);
 
         setButton();
         setListView();
@@ -115,7 +116,7 @@ public class ImageActivity extends AppCompatActivity {
     }
 
     private void setButton(){
-        ImageButton button = findViewById(R.id.nextPageButtonMainActivity);
+        FloatingActionButton button = findViewById(R.id.nextPageButtonMainActivity);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent activity = new Intent(ImageActivity.super.getBaseContext(),
