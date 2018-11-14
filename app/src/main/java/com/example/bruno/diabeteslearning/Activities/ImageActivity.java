@@ -46,7 +46,7 @@ public class ImageActivity extends AppCompatActivity {
         setContentView(R.layout.image_activity);
 
         setButton();
-        setListView();
+        configListView();
 
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
         Intent preferences_intent = new Intent(this, PreferencesActivity.class);
@@ -87,6 +87,8 @@ public class ImageActivity extends AppCompatActivity {
 
         } else{
 
+            Log.d(TAG, "Bitmap null");
+
             //TODO - LANÇAR TOAST DE ERRO OU PELO MENOS LOGAR
 
         }
@@ -103,7 +105,7 @@ public class ImageActivity extends AppCompatActivity {
         }
     }
 
-    private void setListView() {
+    private void configListView() {
         mRecyclerView = findViewById(R.id.foodsListView);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView

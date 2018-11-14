@@ -18,6 +18,8 @@ public class CarboDetector extends MealProperties{
         }
     }
 
+    public MealProperties getMealProperties(){ return this; }
+
     public float getTotalFoodWeight(){
         return totalFoodWeight;
     }
@@ -49,7 +51,9 @@ public class CarboDetector extends MealProperties{
 
     private void saveFoodRegion(int regionPixeis, String foodName){
 
-        float carboRelation = 0, foodDensity = 0;
+        float carboRelation = (float)0.15;
+        float foodDensity = (float)0.7;
+
         //TODO - CHAMAR FUNCAO QUE PEGA RELACAO DE CHO E DENSIDADE DO ALIMENTO NO FIREBASE
 
         foods.add(new FoodRegion(regionPixeis,carboRelation, foodDensity, foodName));
@@ -57,6 +61,8 @@ public class CarboDetector extends MealProperties{
     }
 
     public void calculateCarbo(){
+
+        //TODO - SET TIMESTAMP
 
         float aux = 0;
         for(int i = 0; i < foods.size();i++){

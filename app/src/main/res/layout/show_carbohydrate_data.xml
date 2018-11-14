@@ -8,11 +8,11 @@
 
 
     <TextView
-        android:id="@+id/dataDisplayView"
-        android:layout_width="295dp"
-        android:layout_height="352dp"
-        android:layout_marginBottom="96dp"
-        android:layout_marginRight="56dp"
+        android:id="@+id/dataDisplayTextView"
+        android:layout_width="302dp"
+        android:layout_height="147dp"
+        android:layout_marginBottom="312dp"
+        android:layout_marginRight="48dp"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
@@ -76,6 +76,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:text="Relação 1:" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/foodDataDisplayListView"
+        android:layout_width="302dp"
+        android:layout_height="230dp"
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="48dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

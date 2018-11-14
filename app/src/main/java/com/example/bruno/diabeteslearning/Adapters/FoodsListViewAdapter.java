@@ -79,5 +79,4 @@ public class FoodsListViewAdapter extends  RecyclerView.Adapter<FoodsListViewAda
         return mDataset.size();
     }
 
-
 }
