@@ -8,5 +8,5 @@
 /build
 /captures
 .externalNativeBuild
-/app/CMakeLists.txt
-/openCVLibrary310
+app/CMakeLists.txt
+openCVLibrary310
