@@ -41,7 +41,7 @@ public class FoodsDialogList {
         allFoods.add("Arroz");
         allFoods.add("Feijao");
         allFoods.add("Carne");
-        allFoods.add("Salada");
+        allFoods.add("Saladaaaaaaaaaa");
 
         //TODO - SALVAR LISTA COM NOMES DOS ALIMENTOS DO FIREBASE
     }

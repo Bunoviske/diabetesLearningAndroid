@@ -69,6 +69,7 @@ public class CarboDetector extends MealProperties{
             aux += (foods.get(i).foodDensity * foods.get(i).regionPixeis);
         }
         constant = totalFoodWeight/aux;
+        totalCarbo = 0;
 
         for(int i = 0; i < foods.size();i++){
             foods.get(i).weight = foods.get(i).foodDensity * foods.get(i).regionPixeis * constant;

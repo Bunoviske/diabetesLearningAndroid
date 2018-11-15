@@ -23,6 +23,7 @@
             android:name=".Activities.DisplayDataActivity"
             android:parentActivityName=".Activities.ImageActivity"
             android:allowBackup="true"
+            android:windowSoftInputMode="adjustPan"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
