@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +21,8 @@ import com.example.bruno.diabeteslearning.ImagePaint.ImageViewCanvas;
 import com.example.bruno.diabeteslearning.R;
 
 import org.opencv.android.OpenCVLoader;
+
+import java.io.IOException;
 
 
 public class ImageActivity extends AppCompatActivity {
@@ -65,9 +69,27 @@ public class ImageActivity extends AppCompatActivity {
     }
 
     private Bitmap getBitmap() {
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = false;
-        return BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        Bitmap bm = BitmapFactory.decodeFile(mCurrentPhotoPath, opts);
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(mCurrentPhotoPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String orientString = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+        int orientation = orientString != null ? Integer.parseInt(orientString) :  ExifInterface.ORIENTATION_NORMAL;
+
+        int rotationAngle = 0;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_90) rotationAngle = 90;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_180) rotationAngle = 180;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_270) rotationAngle = 270;
+
+        Matrix matrix = new Matrix();
+        matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2,
+                (float) bm.getHeight() / 2);
+        return Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(),
+                                    matrix, true);
     }
 
 
