@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     String mCurrentPhotoPath;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
         Intent preferences_intent = new Intent(this, PreferencesActivity.class);
-        startActivity(preferences_intent);
 
         if(sharedPreferences.getString(getString(R.string.pref_name_key), "").equals("")){
             startActivity(preferences_intent);
