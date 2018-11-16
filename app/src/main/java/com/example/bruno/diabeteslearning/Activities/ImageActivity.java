@@ -54,13 +54,6 @@ public class ImageActivity extends AppCompatActivity {
         configButton();
         configListView();
 
-        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
-        Intent preferences_intent = new Intent(this, PreferencesActivity.class);
-
-        if(sharedPreferences.getString(getString(R.string.pref_name_key), "").equals("")){
-            startActivity(preferences_intent);
-        }
-
 //        Bitmap bitmap = getIntent().getParcelableExtra("bitmap");
 //        showBitmap(bitmap);
 
@@ -102,8 +95,7 @@ public class ImageActivity extends AppCompatActivity {
             DisplayMetrics metrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-
-            int height = (int) (metrics.heightPixels*0.8);
+            int height = (int) (metrics.heightPixels*0.8); // 80% scaled
             int width = metrics.widthPixels;
 
             //altura dp declarada no arquivo xml. N consegui extrair dinamicamente

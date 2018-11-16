@@ -1,7 +1,9 @@
 package com.example.bruno.diabeteslearning.Activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,6 +39,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_history);
         //Toolbar myToolbar = findViewById(R.id.my_toolbar);
         //setSupportActionBar(myToolbar);
+
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
+        Intent preferences_intent = new Intent(this, PreferencesActivity.class);
+        startActivity(preferences_intent);
+
+        if(sharedPreferences.getString(getString(R.string.pref_name_key), "").equals("")){
+            startActivity(preferences_intent);
+        }
+
 
     }
 

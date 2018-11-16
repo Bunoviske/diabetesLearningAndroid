@@ -34,8 +34,6 @@ public class PreferencesActivity extends AppCompatActivity {
         mNameEditText = findViewById(R.id.edit_text_name);
         mEmailEditText = findViewById(R.id.edit_text_email);
 
-
-
     }
 
     //SAVE BUTTON CLICK LISTENER
