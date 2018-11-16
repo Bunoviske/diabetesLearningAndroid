@@ -48,7 +48,7 @@ public class ImageViewCanvas extends View {
     private ArrayList<FingerPath> paths = new ArrayList<>();
 
     private Paint mPaint;
-    private Bitmap mBitmap, mBitmapBackup, firstBitmap;
+    private Bitmap mBitmap, firstBitmap;
     private Canvas mCanvas;
 
     public ImageViewCanvas(Context context) {
@@ -74,7 +74,7 @@ public class ImageViewCanvas extends View {
 
     public void callClearSpecificPath(final int index) { clearSpecificPath(index); }
 
-    public void callClearLastPath(){clearLastPath();}
+    public void callClearLastPath(){clearSpecificPath(paths.size() - 1);}
 
     public ArrayList<Integer> getSelectedFoodsArea() {return selectedFoodsArea; }
 
@@ -100,22 +100,15 @@ public class ImageViewCanvas extends View {
 
 
     }
-        // TODO - DANDO ERRADO
+
     private void clearSpecificPath(final int index){
         paths.remove(index);
-        mBitmap = mBitmapBackup.copy(Bitmap.Config.ARGB_8888, true);
+        mBitmap = firstBitmap.copy(Bitmap.Config.ARGB_8888, true);
         mCanvas = new Canvas(mBitmap);
         invalidate();
 
     }
 
-    private void clearLastPath(){
-        paths.remove(paths.size() - 1);
-        mBitmap = mBitmapBackup.copy(Bitmap.Config.ARGB_8888, true);
-        mCanvas = new Canvas(mBitmap);
-        invalidate();
-
-    }
 
 
     @Override
@@ -145,7 +138,7 @@ public class ImageViewCanvas extends View {
         Log.i(TAG,"Area:" + area);
 
         if (area < 500.00){
-            clearLastPath();
+            clearSpecificPath(paths.size() - 1);
         }
         else {
             //area é passada para o dialog pois ele que controla se o nome do alimento é inserido
@@ -165,7 +158,6 @@ public class ImageViewCanvas extends View {
         mY = y;
         initialX = x;
         initialY = y;
-        mBitmapBackup = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
 
     }
 
@@ -211,7 +203,7 @@ public class ImageViewCanvas extends View {
                 getContourArea();
             }
             else {
-                clearLastPath();
+                clearSpecificPath(paths.size() - 1);
             }
         }
 
