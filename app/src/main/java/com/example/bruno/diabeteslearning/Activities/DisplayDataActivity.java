@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -34,31 +36,42 @@ public class DisplayDataActivity extends Activity {
 
         configListView();
         configButton();
-        displayEmptyData();
+        displayData();
+        setTableDescriptors();
 
         EditText weightEditText = findViewById(R.id.totalWeight);
         EditText carboRelEditText = findViewById(R.id.carboRelation);
 
-
-        carboRelEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        carboRelEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                    carboDetector.setInsulinCarboRelation(Float.parseFloat(v.getText().toString()));
-                }
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().equals(""))
+                    carboDetector.setInsulinCarboRelation(0);
+                else
+                    carboDetector.setInsulinCarboRelation(Float.parseFloat(s.toString()));
+                displayData();
             }
         });
 
-        weightEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        weightEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    carboDetector.setTotalFoodWeight(Float.parseFloat(v.getText().toString()));
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!s.toString().equals("")){
+                    carboDetector.setTotalFoodWeight(Float.parseFloat(s.toString()));
                     carboDetector.calculateCarbo();
-                    displayData();
                 }
-                return false;
+                else{
+                    carboDetector.clearFoodsCalculus();
+                }
+                displayData();
             }
         });
     }
@@ -76,34 +89,20 @@ public class DisplayDataActivity extends Activity {
 
     private void displayData() {
         TextView textView = findViewById(R.id.dataDisplayTextView);
+        textView.setTypeface(null, Typeface.BOLD);
 
         String text = "Peso total: " + Math.round(carboDetector.getTotalFoodWeight()) + "g\n\n";
 
         text += "Carboidrato total: " + Math.round(carboDetector.getTotalCarbo()) + "g\n\n";
-        if (carboDetector.getInsulinCarboRelation() > 0) {
-            text += "Dose de insulina: " + Math.round(carboDetector.getInsulinDose()) + "u\n\n";
-        } else {
-            text += "Dose de insulina: \n\n";
-        }
 
-        mAdapter.notifyDataSetChanged(); //lista foi atualizada
+        text += "Dose de insulina: " + Math.round(carboDetector.getInsulinDose()) + "u\n\n";
 
 
-        textView.setText(text);
-    }
-
-    private void displayEmptyData() {
-
-        setTableDescriptors();
-
-        TextView textView = findViewById(R.id.dataDisplayTextView);
-
-        String text = "Peso total: " + "\n\n";
-        text += "Carboidrato total: " + "\n\n";
-        text += "Dose de insulina: \n\n";
+        mAdapter.notifyDataSetChanged();
+        //sinaliza que lista foi atualizada (na maioria das vezes que entrar nessa funcao a lista
+        //vai ter sido atualizada)
 
         textView.setText(text);
-
     }
 
     private void setTableDescriptors(){

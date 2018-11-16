@@ -13,4 +13,9 @@
     <string name="pref_name_description">Nome</string>
     <string name="pref_email_title">Digite seu email</string>
     <string name="pref_email_description">Email</string>
+
+    //******************STRINGS HISTORY ACTIVITY*************//
+    <string name="refeicoes">Suas refeicoes</string>
+
+
 </resources>

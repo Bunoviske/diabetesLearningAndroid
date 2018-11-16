@@ -40,6 +40,16 @@ public class CarboDetector extends MealProperties{
         return foods;
     }
 
+    public void clearFoodsCalculus(){
+        totalCarbo = 0;
+        totalFoodWeight = 0;
+        insulinDose = 0;
+        for (int i = 0; i < foods.size(); i++){
+            foods.get(i).weight = 0;
+            foods.get(i).carbo = 0;
+        }
+    }
+
 
     public void setTotalFoodWeight(float totalFoodWeight) {
         super.totalFoodWeight = totalFoodWeight;
@@ -47,6 +57,16 @@ public class CarboDetector extends MealProperties{
 
     public void setInsulinCarboRelation(float insulinCarboRelation){
         super.insulinCarboRelation = insulinCarboRelation;
+        setInsulinDose();
+    }
+
+    private void setInsulinDose(){
+        if (insulinCarboRelation > 0){
+            insulinDose = totalCarbo/insulinCarboRelation;
+        }
+        else{
+            insulinDose = 0;
+        }
     }
 
     private void saveFoodRegion(int regionPixeis, String foodName){
@@ -81,8 +101,7 @@ public class CarboDetector extends MealProperties{
 
         }
 
-        if (insulinCarboRelation > 0)
-            insulinDose = totalCarbo/insulinCarboRelation;
+        setInsulinDose();
 
         Log.i(TAG, "Total de carboidrato: " + totalCarbo);
         Log.i(TAG, "Dose de insulina: " + insulinDose);
