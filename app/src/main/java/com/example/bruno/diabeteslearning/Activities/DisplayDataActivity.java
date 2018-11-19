@@ -1,6 +1,9 @@
 package com.example.bruno.diabeteslearning.Activities;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -19,9 +22,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 
+import java.util.concurrent.TimeUnit;
+
 public class DisplayDataActivity extends Activity {
 
     private CarboDetector carboDetector;
+    private Context context;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -34,8 +40,14 @@ public class DisplayDataActivity extends Activity {
 
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        mDatabaseReference = database.getReference();
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
+        String nome = sharedPreferences.getString(getString(R.string.pref_name_key), "");
+        String timeStamp = String.valueOf(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
+        mDatabaseReference = database.getReference().child(nome);
+        mDatabaseReference = mDatabaseReference.child(timeStamp);
 
+
+        context = this;
 
         carboDetector = new CarboDetector(
                 getIntent().getStringArrayListExtra("selectedFoodsName"),
@@ -135,13 +147,12 @@ public class DisplayDataActivity extends Activity {
         imageButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //TODO - SALVAR NO FIREBASE A CLASSE MEALPROPERTIES QUANDO SAIR DA PAGINA
+
                 Gson gson = new Gson();
                 String json = gson.toJson(carboDetector.getMealProperties());
-                mDatabaseReference = mDatabaseReference.child("Tom - 2018");
                 mDatabaseReference.setValue(json);
-                    //carboDetector.getMealProperties()
-//                Intent activity = new Intent(ImageActivity.super.getBaseContext(),
-//                startActivity(activity);
+                Intent intent = new Intent(context, MainActivity.class);
+                startActivity(intent);
             }
         });
     }
