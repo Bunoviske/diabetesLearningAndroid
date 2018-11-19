@@ -8,15 +8,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.bruno.diabeteslearning.Adapters.DataDisplayAdapter;
 import com.example.bruno.diabeteslearning.Carbohydrate.CarboDetector;
 import com.example.bruno.diabeteslearning.R;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 
 public class DisplayDataActivity extends Activity {
 
@@ -24,11 +25,17 @@ public class DisplayDataActivity extends Activity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private DatabaseReference mDatabaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.show_carbohydrate_data);
+        setContentView(R.layout.activity_displaydata);
+
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        mDatabaseReference = database.getReference();
+
 
         carboDetector = new CarboDetector(
                 getIntent().getStringArrayListExtra("selectedFoodsName"),
@@ -128,8 +135,11 @@ public class DisplayDataActivity extends Activity {
         imageButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //TODO - SALVAR NO FIREBASE A CLASSE MEALPROPERTIES QUANDO SAIR DA PAGINA
-                //carboDetector.getMealProperties();
-
+                Gson gson = new Gson();
+                String json = gson.toJson(carboDetector.getMealProperties());
+                mDatabaseReference = mDatabaseReference.child("Tom - 2018");
+                mDatabaseReference.setValue(json);
+                    //carboDetector.getMealProperties()
 //                Intent activity = new Intent(ImageActivity.super.getBaseContext(),
 //                startActivity(activity);
             }

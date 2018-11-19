@@ -11,4 +11,24 @@ public class MealProperties {
     protected float insulinDose = 0;
     //TODO - TIMESTAMP e BITMAP
     protected ArrayList<FoodRegion> foods = new ArrayList<>();
+
+    public void setTotalFoodWeight(float totalFoodWeight) {
+        this.totalFoodWeight = totalFoodWeight;
+    }
+
+    public void setInsulinCarboRelation(float insulinCarboRelation) {
+        this.insulinCarboRelation = insulinCarboRelation;
+    }
+
+    public void setTotalCarbo(float totalCarbo) {
+        this.totalCarbo = totalCarbo;
+    }
+
+    public void setInsulinDose(float insulinDose) {
+        this.insulinDose = insulinDose;
+    }
+
+    public void setFoods(ArrayList<FoodRegion> foods) {
+        this.foods = foods;
+    }
 }
