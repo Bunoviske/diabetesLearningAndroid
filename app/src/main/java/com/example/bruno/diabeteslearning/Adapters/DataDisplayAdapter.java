@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.bruno.diabeteslearning.Carbohydrate.FoodRegion;
 import com.example.bruno.diabeteslearning.R;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class DataDisplayAdapter extends RecyclerView.Adapter<DataDisplayAdapter.MyViewHolder> {
@@ -49,22 +50,31 @@ public class DataDisplayAdapter extends RecyclerView.Adapter<DataDisplayAdapter.
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(DataDisplayAdapter.MyViewHolder holder, final int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        holder.foodName.setText(mDataset.get(position).foodName);
 
-        if (Float.isNaN(mDataset.get(position).weight) ||
-                mDataset.get(position).weight == 0.0)
-            //peso vai ser zero na primeira vez que mostrar o listView
+        if (mDataset.get(position).weight == 0.0){
+            //nome, peso e carbo vai ser sem nada escrito na primeira vez que mostrar o listView
+            //peso = 0.0 representa esse estado (calculateCarbo ainda nao foi chamada)
+            holder.foodName.setText("");
             holder.weight.setText("");
-        else
-            holder.weight.setText(Float.toString(mDataset.get(position).weight));
+            holder.carbo.setText("");
+        }
 
-        if (Float.isNaN(mDataset.get(position).carbo))
-            holder.weight.setText("");
-        else
-            holder.weight.setText(Float.toString(mDataset.get(position).carbo));
+        else {
 
+            holder.foodName.setText(mDataset.get(position).foodName);
+
+            if (Float.isNaN(mDataset.get(position).weight))
+                holder.weight.setText("");
+            else
+                holder.weight.setText(String.format("%sg", new DecimalFormat("##.##").format(
+                        (mDataset.get(position).weight))));
+
+            if (Float.isNaN(mDataset.get(position).carbo))
+                holder.carbo.setText("");
+            else
+                holder.carbo.setText(String.format("%sg", new DecimalFormat("##.##").format(
+                        (mDataset.get(position).carbo))));
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

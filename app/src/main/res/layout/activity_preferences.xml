@@ -16,6 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
+        android:imeOptions="actionNext"
+        android:ems="10"
+        android:inputType="text"
         android:hint="Nome" />
 
     <TextView
@@ -30,6 +33,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
+        android:imeOptions="actionDone"
+        android:ems="10"
+        android:inputType="textEmailAddress"
         android:hint="Email" />
 
 
@@ -37,9 +43,11 @@
         android:id="@+id/button_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="checkPreferenceData"
         android:layout_gravity="center"
-        android:text="Salvar" />
+        android:background="@color/colorPrimary"
+        android:onClick="checkPreferenceData"
+        android:text="Salvar"
+        android:textColor="@android:color/background_light" />
 
 
 </GridLayout>

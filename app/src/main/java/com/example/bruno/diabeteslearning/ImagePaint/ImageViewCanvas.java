@@ -9,11 +9,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Magnifier;
+
 import java.lang.Math;
 
 
@@ -48,8 +51,13 @@ public class ImageViewCanvas extends View {
     private ArrayList<FingerPath> paths = new ArrayList<>();
 
     private Paint mPaint;
-    private Bitmap mBitmap, mBitmapBackup, firstBitmap;
+    private Bitmap mBitmap, firstBitmap;
     private Canvas mCanvas;
+
+    private boolean isZooming = false;
+    private boolean zoomMode = true;
+    private ImageMagnifier imageMagnifier = new ImageMagnifier();
+
 
     public ImageViewCanvas(Context context) {
         this(context, null);
@@ -74,7 +82,7 @@ public class ImageViewCanvas extends View {
 
     public void callClearSpecificPath(final int index) { clearSpecificPath(index); }
 
-    public void callClearLastPath(){clearLastPath();}
+    public void callClearLastPath(){clearSpecificPath(paths.size() - 1);}
 
     public ArrayList<Integer> getSelectedFoodsArea() {return selectedFoodsArea; }
 
@@ -97,26 +105,14 @@ public class ImageViewCanvas extends View {
         mBitmap = firstBitmap.copy(Bitmap.Config.ARGB_8888, true);
         mCanvas = new Canvas(mBitmap);
         invalidate();
-
-
     }
-        // TODO - DANDO ERRADO
+
     private void clearSpecificPath(final int index){
         paths.remove(index);
-        mBitmap = mBitmapBackup.copy(Bitmap.Config.ARGB_8888, true);
+        mBitmap = firstBitmap.copy(Bitmap.Config.ARGB_8888, true);
         mCanvas = new Canvas(mBitmap);
         invalidate();
-
     }
-
-    private void clearLastPath(){
-        paths.remove(paths.size() - 1);
-        mBitmap = mBitmapBackup.copy(Bitmap.Config.ARGB_8888, true);
-        mCanvas = new Canvas(mBitmap);
-        invalidate();
-
-    }
-
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -128,10 +124,15 @@ public class ImageViewCanvas extends View {
             mPaint.setMaskFilter(null);
             mCanvas.drawPath(fp.path, mPaint);
         }
+
+        if (isZooming && zoomMode){
+            imageMagnifier.drawZoom(mCanvas,mBitmap);
+        }
+
         if(mBitmap != null){
             canvas.drawBitmap(mBitmap, 0, 0,null);
-            canvas.restore();
         }
+        canvas.restore();
     }
 
     private void getContourArea(){
@@ -145,7 +146,7 @@ public class ImageViewCanvas extends View {
         Log.i(TAG,"Area:" + area);
 
         if (area < 500.00){
-            clearLastPath();
+            clearSpecificPath(paths.size() - 1);
         }
         else {
             //area é passada para o dialog pois ele que controla se o nome do alimento é inserido
@@ -165,7 +166,7 @@ public class ImageViewCanvas extends View {
         mY = y;
         initialX = x;
         initialY = y;
-        mBitmapBackup = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        mPath.quadTo(mX, mY, mX+1, mY+1);
 
     }
 
@@ -197,6 +198,7 @@ public class ImageViewCanvas extends View {
 
         isAutoCompleteAvailable = false;
         isContourClosed = true;
+        isZooming = false;
         getContourArea();
     }
 
@@ -211,7 +213,7 @@ public class ImageViewCanvas extends View {
                 getContourArea();
             }
             else {
-                clearLastPath();
+                clearSpecificPath(paths.size() - 1);
             }
         }
 
@@ -227,6 +229,11 @@ public class ImageViewCanvas extends View {
         float x = event.getX();
         float y = event.getY();
         Point point = new Point(Math.round(x),Math.round(y));
+        imageMagnifier.setZoomPos(x,y);
+
+        //reseta o bitmap que esta vinculado ao Canvas (senao nao reseta o drawCirle da lupa)
+        mBitmap = firstBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        mCanvas = new Canvas(mBitmap);
 
         //so add pontos no contorno caso este ainda nao esteja fechado
         if (!isContourClosed) contourProcessing.addContourPoint(point);
@@ -237,17 +244,21 @@ public class ImageViewCanvas extends View {
 
         switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN :
+                isZooming = true;
                 touchStart(x, y);
                 invalidate();
                 break;
             case MotionEvent.ACTION_MOVE :
+                isZooming = true;
                 touchMove(x, y);
                 invalidate();
                 break;
             case MotionEvent.ACTION_UP :
+                isZooming = false;
                 touchUp();
                 invalidate();
                 break;
+
         }
         return true;
     }

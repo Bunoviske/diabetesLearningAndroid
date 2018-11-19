@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,13 +14,15 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
-import android.widget.ImageButton;
 
 import com.example.bruno.diabeteslearning.ImagePaint.ImageViewCanvas;
 import com.example.bruno.diabeteslearning.R;
 
 import org.opencv.android.OpenCVLoader;
+
+import java.io.IOException;
 
 
 public class ImageActivity extends AppCompatActivity {
@@ -26,6 +31,7 @@ public class ImageActivity extends AppCompatActivity {
     private ImageViewCanvas imageViewCanvas;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
+    private String mCurrentPhotoPath;
 
     static {
         if (OpenCVLoader.initDebug()){
@@ -45,20 +51,38 @@ public class ImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.image_activity);
 
-        setButton();
+        configButton();
         configListView();
 
-        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
-        Intent preferences_intent = new Intent(this, PreferencesActivity.class);
+//        Bitmap bitmap = getIntent().getParcelableExtra("bitmap");
+//        showBitmap(bitmap);
 
-        if(sharedPreferences.getString(getString(R.string.pref_name_key), "").equals("")){
-            startActivity(preferences_intent);
-        }
+        mCurrentPhotoPath = getIntent().getStringExtra("bitmapUri");
+        showBitmap(getBitmap());
+    }
 
-        Bitmap bitmap = getIntent().getParcelableExtra("bitmap");
-        if(bitmap!=null){
-            showBitmap(bitmap);
+    private Bitmap getBitmap() {
+        BitmapFactory.Options opts = new BitmapFactory.Options();
+        Bitmap bm = BitmapFactory.decodeFile(mCurrentPhotoPath, opts);
+        ExifInterface exif = null;
+        try {
+            exif = new ExifInterface(mCurrentPhotoPath);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        String orientString = exif.getAttribute(ExifInterface.TAG_ORIENTATION);
+        int orientation = orientString != null ? Integer.parseInt(orientString) :  ExifInterface.ORIENTATION_NORMAL;
+
+        int rotationAngle = 0;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_90) rotationAngle = 90;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_180) rotationAngle = 180;
+        if (orientation == ExifInterface.ORIENTATION_ROTATE_270) rotationAngle = 270;
+
+        Matrix matrix = new Matrix();
+        matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2,
+                (float) bm.getHeight() / 2);
+        return Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(),
+                                    matrix, true);
     }
 
 
@@ -66,28 +90,25 @@ public class ImageActivity extends AppCompatActivity {
 
         if(bitmap != null){
 
+            imageViewCanvas = findViewById(R.id.paintView);
+
             DisplayMetrics metrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-
-            imageViewCanvas = findViewById(R.id.paintView);
-
-            //int height = metrics.heightPixels;
+            int height = (int) (metrics.heightPixels*0.8); // 80% scaled
             int width = metrics.widthPixels;
 
             //altura dp declarada no arquivo xml. N consegui extrair dinamicamente
-            int heightDp = 396;
-            int imageHeight = Math.round(heightDp * (metrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+            //int heightDp = 520;
+            //int imageHeight = Math.round(heightDp * (metrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
 
-            bitmap = Bitmap.createScaledBitmap(bitmap, width, imageHeight, true);
-
-            //TODO - PEGAR PESO TOTAL DOS ALIMENTOS
+            bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
 
             imageViewCanvas.init(bitmap,  mRecyclerView);
 
         } else{
 
-            Log.d(TAG, "Bitmap null");
+            Log.e(TAG, "Bitmap null");
 
             //TODO - LANÇAR TOAST DE ERRO OU PELO MENOS LOGAR
 
@@ -117,7 +138,7 @@ public class ImageActivity extends AppCompatActivity {
 
     }
 
-    private void setButton(){
+    private void configButton(){
         FloatingActionButton button = findViewById(R.id.nextPageButtonMainActivity);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
