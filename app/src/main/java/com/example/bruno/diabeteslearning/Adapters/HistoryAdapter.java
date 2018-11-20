@@ -3,6 +3,7 @@ package com.example.bruno.diabeteslearning.Adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,9 @@ import android.widget.TextView;
 import com.example.bruno.diabeteslearning.Carbohydrate.CarboDetector;
 import com.example.bruno.diabeteslearning.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ResultsAdapterViewHolder> {
@@ -38,6 +41,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ResultsA
     public void onBindViewHolder(@NonNull ResultsAdapterViewHolder holder, int position) {
         if(carboEntryList!=null){
             //TODO = Set text do textview com epoch de cada entrada do historico
+            String date = formatDate(Long.valueOf(carboEntryList.get(position).getTimeStamp()));
+            holder.textView.setText(date);
         }
     }
 
@@ -77,4 +82,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ResultsA
         this.carboEntryList = carboEntryList;
         notifyDataSetChanged();
     }
+
+    private String formatDate(long epoch){
+        Date updatedate = new Date(epoch * 1000);
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        return format.format(updatedate);
+    }
+
 }

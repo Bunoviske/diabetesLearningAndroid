@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.hardware.camera2.*;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -15,22 +14,43 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 
+import com.example.bruno.diabeteslearning.Adapters.HistoryAdapter;
+import com.example.bruno.diabeteslearning.Carbohydrate.CarboDetector;
 import com.example.bruno.diabeteslearning.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements HistoryAdapter.ResultsAdapterOnClickHandler {
+
 
     private final int MY_PERMISSIONS_REQUEST_CAMERA = 101;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private DatabaseReference mDatabaseReference;
+    private List<CarboDetector> entries;
+    private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLayoutManager;
+    private HistoryAdapter mHistoryAdapter;
     String mCurrentPhotoPath;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,15 +58,58 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_history);
         //Toolbar myToolbar = findViewById(R.id.my_toolbar);
         //setSupportActionBar(myToolbar);
+        entries = new ArrayList<>();
+
+        Intent preferences_intent = new Intent(this, PreferencesActivity.class);
+
+
 
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
-        Intent preferences_intent = new Intent(this, PreferencesActivity.class);
+        String nome = sharedPreferences.getString(getString(R.string.pref_name_key), "");
+
+
 
         if(sharedPreferences.getString(getString(R.string.pref_name_key), "").equals("")){
             startActivity(preferences_intent);
         }
 
+        configListView();
+        configDatabase(nome);
 
+
+
+    }
+
+    private void configDatabase(String nome){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        database.setPersistenceEnabled(true);
+        mDatabaseReference = database.getReference().child(nome);
+
+
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue() != null){
+                    entries.clear();
+                    Gson gson = new Gson();
+                    for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
+                        CarboDetector entry = gson.fromJson((String) dataSnapshot1.getValue(), CarboDetector.class);
+                        entries.add(entry);
+                    }
+                    if(null != mHistoryAdapter) {
+                        mHistoryAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                //TODO: mostrar mensagem de erro
+                Log.w("ui", "loadPost:onCancelled", databaseError.toException());
+                // ...
+            }
+        };
+        mDatabaseReference.addValueEventListener(postListener);
     }
 
     private File createImageFile() throws IOException {
@@ -101,6 +164,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void configListView() {
+        mHistoryAdapter = new HistoryAdapter(this, this);
+        mRecyclerView = findViewById(R.id.rv_history);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setAdapter(mHistoryAdapter);
+        mHistoryAdapter.setHistoryList(entries);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+    }
+
+
+
+
     public void takePictureButtonCallback(View v){
         dispatchTakePictureIntent();
     }
@@ -114,5 +194,10 @@ public class MainActivity extends AppCompatActivity {
             i.putExtra("bitmapUri", mCurrentPhotoPath);
             startActivity(i);
         }
+    }
+
+    @Override
+    public void onClick(int position) {
+
     }
 }

@@ -1,16 +1,45 @@
 package com.example.bruno.diabeteslearning.Carbohydrate;
 
 import android.util.Log;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class CarboDetector extends MealProperties{
+public class CarboDetector extends MealProperties implements Serializable {
 
     private float constant;
 
+    public String timeStamp;
+
     private static String TAG = "CarboDetector";
 
+    public float getConstant() {
+        return constant;
+    }
+
+    public void setConstant(float constant) {
+        this.constant = constant;
+    }
+
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public static String getTAG() {
+        return TAG;
+    }
+
+    public static void setTAG(String TAG) {
+        CarboDetector.TAG = TAG;
+    }
+
     public CarboDetector(ArrayList<String> selectedFoodsName,
+
                          ArrayList<Integer> selectedFoodsArea){
 
         for (int i = 0; i < selectedFoodsName.size(); i++){

@@ -17,11 +17,15 @@ import android.widget.TextView;
 
 import com.example.bruno.diabeteslearning.Adapters.DataDisplayAdapter;
 import com.example.bruno.diabeteslearning.Carbohydrate.CarboDetector;
+import com.example.bruno.diabeteslearning.Carbohydrate.MealProperties;
 import com.example.bruno.diabeteslearning.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class DisplayDataActivity extends Activity {
@@ -40,11 +44,7 @@ public class DisplayDataActivity extends Activity {
 
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
-        String nome = sharedPreferences.getString(getString(R.string.pref_name_key), "");
-        String timeStamp = String.valueOf(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
-        mDatabaseReference = database.getReference().child(nome);
-        mDatabaseReference = mDatabaseReference.child(timeStamp);
+        mDatabaseReference = database.getReference();
 
 
         context = this;
@@ -146,11 +146,14 @@ public class DisplayDataActivity extends Activity {
         FloatingActionButton imageButton = findViewById(R.id.nextPageButtonDisplayActivity);
         imageButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                //TODO - SALVAR NO FIREBASE A CLASSE MEALPROPERTIES QUANDO SAIR DA PAGINA
-
+                HashMap<String, Object> entry = new HashMap<>();
                 Gson gson = new Gson();
+                SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
+                String timeStamp = String.valueOf(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
+                String nome = sharedPreferences.getString(getString(R.string.pref_name_key), "");
+                carboDetector.setTimeStamp(timeStamp);
                 String json = gson.toJson(carboDetector.getMealProperties());
-                mDatabaseReference.setValue(json);
+                mDatabaseReference.child(nome).child(timeStamp).setValue(json);
                 Intent intent = new Intent(context, MainActivity.class);
                 startActivity(intent);
             }
