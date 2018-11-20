@@ -41,8 +41,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ResultsA
     public void onBindViewHolder(@NonNull ResultsAdapterViewHolder holder, int position) {
         if(carboEntryList!=null){
             //TODO = Set text do textview com epoch de cada entrada do historico
-            String date = formatDate(Long.valueOf(carboEntryList.get(position).getTimeStamp()));
-            holder.textView.setText(date);
+            holder.textView.setText(carboEntryList.get(position).getTimeStamp());
         }
     }
 
@@ -81,12 +80,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ResultsA
     public void setHistoryList(List<CarboDetector> carboEntryList){
         this.carboEntryList = carboEntryList;
         notifyDataSetChanged();
-    }
-
-    private String formatDate(long epoch){
-        Date updatedate = new Date(epoch * 1000);
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-        return format.format(updatedate);
     }
 
 }

@@ -21,51 +21,51 @@ public class FoodRegion implements Serializable {
         this.foodName = foodName;
     }
 
-    public int getRegionPixeis() {
-        return regionPixeis;
-    }
-
-    public void setRegionPixeis(int regionPixeis) {
-        this.regionPixeis = regionPixeis;
-    }
-
-    public float getWeight() {
-        return weight;
-    }
-
-    public void setWeight(float weight) {
-        this.weight = weight;
-    }
-
-    public float getCarbo() {
-        return carbo;
-    }
-
-    public void setCarbo(float carbo) {
-        this.carbo = carbo;
-    }
-
-    public String getFoodName() {
-        return foodName;
-    }
-
-    public void setFoodName(String foodName) {
-        this.foodName = foodName;
-    }
-
-    public float getCarboRelation() {
-        return carboRelation;
-    }
-
-    public void setCarboRelation(float carboRelation) {
-        this.carboRelation = carboRelation;
-    }
-
-    public float getFoodDensity() {
-        return foodDensity;
-    }
-
-    public void setFoodDensity(float foodDensity) {
-        this.foodDensity = foodDensity;
-    }
+//    public int getRegionPixeis() {
+//        return regionPixeis;
+//    }
+//
+//    public void setRegionPixeis(int regionPixeis) {
+//        this.regionPixeis = regionPixeis;
+//    }
+//
+//    public float getWeight() {
+//        return weight;
+//    }
+//
+//    public void setWeight(float weight) {
+//        this.weight = weight;
+//    }
+//
+//    public float getCarbo() {
+//        return carbo;
+//    }
+//
+//    public void setCarbo(float carbo) {
+//        this.carbo = carbo;
+//    }
+//
+//    public String getFoodName() {
+//        return foodName;
+//    }
+//
+//    public void setFoodName(String foodName) {
+//        this.foodName = foodName;
+//    }
+//
+//    public float getCarboRelation() {
+//        return carboRelation;
+//    }
+//
+//    public void setCarboRelation(float carboRelation) {
+//        this.carboRelation = carboRelation;
+//    }
+//
+//    public float getFoodDensity() {
+//        return foodDensity;
+//    }
+//
+//    public void setFoodDensity(float foodDensity) {
+//        this.foodDensity = foodDensity;
+//    }
 }

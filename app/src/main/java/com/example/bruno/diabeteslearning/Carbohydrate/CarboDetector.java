@@ -14,30 +14,6 @@ public class CarboDetector extends MealProperties implements Serializable {
     private float constant;
     private static String TAG = "CarboDetector";
 
-    public float getConstant() {
-        return constant;
-    }
-
-    public void setConstant(float constant) {
-        this.constant = constant;
-    }
-
-    public String getTimeStamp() {
-        return timeStamp;
-    }
-
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
-    }
-
-    public static String getTAG() {
-        return TAG;
-    }
-
-    public static void setTAG(String TAG) {
-        CarboDetector.TAG = TAG;
-    }
-
     public CarboDetector(ArrayList<String> selectedFoodsName,
 
                          ArrayList<Integer> selectedFoodsArea){
@@ -49,7 +25,11 @@ public class CarboDetector extends MealProperties implements Serializable {
         }
     }
 
-    public MealProperties getMealProperties(){ return this; }
+    public MealProperties getMealProperties(){ return super.getMealProperties(); }
+
+    public String getTimeStamp() {
+        return timeStamp;
+    }
 
     public float getTotalFoodWeight(){
         return totalFoodWeight;

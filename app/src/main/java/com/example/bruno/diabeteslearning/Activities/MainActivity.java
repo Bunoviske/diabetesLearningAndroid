@@ -63,22 +63,15 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
 
         Intent preferences_intent = new Intent(this, PreferencesActivity.class);
 
-
-
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
-        String nome = sharedPreferences.getString(getString(R.string.pref_name_key), "");
-
-
 
         if(sharedPreferences.getString(getString(R.string.pref_name_key), "").equals("")){
             startActivity(preferences_intent);
         }
 
+        String nome = sharedPreferences.getString(getString(R.string.pref_name_key), "");
         configListView();
         configDatabase(nome);
-
-
-
     }
 
     private void configDatabase(String nome){
@@ -118,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
         String timeStamp = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.SHORT)
                 .format(new Date());
 
-        //String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPG_" + timeStamp;
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
@@ -182,13 +174,9 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
         mRecyclerView.setLayoutManager(mLayoutManager);
     }
 
-
-
-
     public void takePictureButtonCallback(View v){
         dispatchTakePictureIntent();
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

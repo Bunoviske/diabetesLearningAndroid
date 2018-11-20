@@ -14,4 +14,8 @@ public class MealProperties {
 
     //TODO - SALVAR BITMAP??
 
+    public MealProperties getMealProperties(){
+        return this;
+    }
+
 }
