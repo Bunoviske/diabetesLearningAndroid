@@ -1,9 +1,6 @@
 package com.example.bruno.diabeteslearning.Activities;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -19,9 +16,6 @@ import com.example.bruno.diabeteslearning.Adapters.DataDisplayAdapter;
 import com.example.bruno.diabeteslearning.Carbohydrate.CarboDetector;
 import com.example.bruno.diabeteslearning.Carbohydrate.MealProperties;
 import com.example.bruno.diabeteslearning.R;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,11 +25,9 @@ import java.util.concurrent.TimeUnit;
 public class DisplayDataActivity extends Activity {
 
     private CarboDetector carboDetector;
-    private Context context;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private DatabaseReference mDatabaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -18,10 +18,9 @@ public class ImageMagnifier{
     private PointF zoomPos;
     private Matrix matrix;
     private Paint paint;
-    private Bitmap bitmap;
     private BitmapShader shader;
-    private int sizeOfMagnifier = 250;
-    private int circleOffset = 250;
+    private int sizeOfMagnifier = 200;
+    private int circleOffset = 150;
 
     public ImageMagnifier() {
         init();

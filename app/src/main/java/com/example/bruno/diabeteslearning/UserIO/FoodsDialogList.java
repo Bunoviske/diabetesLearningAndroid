@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 
@@ -41,7 +43,7 @@ public class FoodsDialogList {
         allFoods.add("Arroz");
         allFoods.add("Feijao");
         allFoods.add("Carne");
-        allFoods.add("Saladaaaaaaaaaa");
+        allFoods.add("Saladaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 
         //TODO - SALVAR LISTA COM NOMES DOS ALIMENTOS DO FIREBASE
     }
@@ -77,7 +79,6 @@ public class FoodsDialogList {
                 Log.i("Dialog_ok", selectedItem);
 
                 if (selectedItem != "") {
-                    //TODO - QUANDO CLICA FORA DO DIALOG NAO ENTRA NO 'OK' E NAO DELETA CONTORNO
 
                     selectedFoodsName.add(selectedItem);
                     selectedFoodsArea.add(lastContourArea);
@@ -103,7 +104,9 @@ public class FoodsDialogList {
                 dialog.dismiss();
             }
         });
+
         AlertDialog alert = builder.create();
+        alert.setCanceledOnTouchOutside(false);
         alert.show();
 
     }

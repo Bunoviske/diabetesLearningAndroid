@@ -3,15 +3,15 @@ package com.example.bruno.diabeteslearning.Carbohydrate;
 import android.util.Log;
 
 import java.io.Serializable;
+
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class CarboDetector extends MealProperties implements Serializable {
 
     private float constant;
-
-    public String timeStamp;
-
     private static String TAG = "CarboDetector";
 
     public float getConstant() {
@@ -41,6 +41,8 @@ public class CarboDetector extends MealProperties implements Serializable {
     public CarboDetector(ArrayList<String> selectedFoodsName,
 
                          ArrayList<Integer> selectedFoodsArea){
+
+        setTimeStamp();
 
         for (int i = 0; i < selectedFoodsName.size(); i++){
             saveFoodRegion(selectedFoodsArea.get(i), selectedFoodsName.get(i));
@@ -89,6 +91,11 @@ public class CarboDetector extends MealProperties implements Serializable {
         setInsulinDose();
     }
 
+    private void setTimeStamp(){
+        timeStamp = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.SHORT)
+                .format(new Date());
+    }
+
     private void setInsulinDose(){
         if (insulinCarboRelation > 0){
             insulinDose = totalCarbo/insulinCarboRelation;
@@ -110,8 +117,6 @@ public class CarboDetector extends MealProperties implements Serializable {
     }
 
     public void calculateCarbo(){
-
-        //TODO - SET TIMESTAMP
 
         float aux = 0;
         for(int i = 0; i < foods.size();i++){

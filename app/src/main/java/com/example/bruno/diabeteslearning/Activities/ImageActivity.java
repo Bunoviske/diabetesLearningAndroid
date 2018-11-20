@@ -1,8 +1,6 @@
 package com.example.bruno.diabeteslearning.Activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -14,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 
 import com.example.bruno.diabeteslearning.ImagePaint.ImageViewCanvas;
@@ -49,7 +46,7 @@ public class ImageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.image_activity);
+        setContentView(R.layout.activity_image);
 
         configButton();
         configListView();
@@ -64,6 +61,8 @@ public class ImageActivity extends AppCompatActivity {
     private Bitmap getBitmap() {
         BitmapFactory.Options opts = new BitmapFactory.Options();
         Bitmap bm = BitmapFactory.decodeFile(mCurrentPhotoPath, opts);
+
+        /**************** set image bitmap orientation *******************/
         ExifInterface exif = null;
         try {
             exif = new ExifInterface(mCurrentPhotoPath);
@@ -109,8 +108,6 @@ public class ImageActivity extends AppCompatActivity {
         } else{
 
             Log.e(TAG, "Bitmap null");
-
-            //TODO - LANÇAR TOAST DE ERRO OU PELO MENOS LOGAR
 
         }
     }
