@@ -1,8 +1,9 @@
 package com.example.bruno.diabeteslearning.Carbohydrate;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MealProperties {
+public abstract class MealProperties implements Serializable {
 
     //TODO - variaveis a serem ENVIADAS para o firebase
     protected float totalFoodWeight = 0;
@@ -14,7 +15,7 @@ public class MealProperties {
 
     //TODO - SALVAR BITMAP??
 
-    public MealProperties getMealProperties(){
+    protected MealProperties getMealProperties(){
         return this;
     }
 

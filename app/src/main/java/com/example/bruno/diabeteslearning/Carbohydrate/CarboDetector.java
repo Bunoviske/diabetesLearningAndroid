@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class CarboDetector extends MealProperties implements Serializable {
+public class CarboDetector extends MealProperties {
 
     private float constant;
     private static String TAG = "CarboDetector";
