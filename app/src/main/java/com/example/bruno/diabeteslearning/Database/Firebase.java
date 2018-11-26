@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 public class Firebase {
 
@@ -23,6 +24,7 @@ public class Firebase {
     private LogListener logListener;
 
     private HashMap<String, FoodProperties> allFoodsHashMap =  new HashMap<>();
+    private List<String> sortedKeys = new ArrayList<>();
 
     private FirebaseDatabase mDatabase;
     private DatabaseReference mLogReference;
@@ -39,8 +41,7 @@ public class Firebase {
     }
 
     public ArrayList<String> getAllFoods() {
-        return new ArrayList<>(allFoodsHashMap.keySet());
-
+        return new ArrayList<>(sortedKeys);
     }
 
     public HashMap<String, FoodProperties> getAllFoodsHashMap() {
@@ -66,7 +67,7 @@ public class Firebase {
                                 FoodProperties.class);
                         allFoodsHashMap.put(dataSnapshot1.getKey(),entry);
                     }
-                    //TODO - SORT HASH MAP
+                    sortKeys();
                 }
             }
             @Override
@@ -77,6 +78,11 @@ public class Firebase {
                 // ...
             }
         });
+    }
+
+    private void sortKeys() {
+        sortedKeys = new ArrayList<>(allFoodsHashMap.keySet());
+        Collections.sort(sortedKeys);
     }
 
     private void setFoodsReference() {
