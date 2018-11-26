@@ -11,12 +11,8 @@ public abstract class MealProperties implements Serializable {
     protected float totalCarbo = 0;
     protected float insulinDose = 0;
     protected String timeStamp = "";
-    protected ArrayList<FoodRegion> foods = new ArrayList<>();
+    protected ArrayList<ImageFoodRegion> foods = new ArrayList<>();
 
     //TODO - SALVAR BITMAP??
-
-    protected MealProperties getMealProperties(){
-        return this;
-    }
 
 }

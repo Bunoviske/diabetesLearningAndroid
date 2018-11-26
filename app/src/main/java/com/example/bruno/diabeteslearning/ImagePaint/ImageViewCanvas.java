@@ -96,7 +96,7 @@ public class ImageViewCanvas extends View {
         firstBitmap = mBitmap.copy(Bitmap.Config.ARGB_8888, true);
         mCanvas = new Canvas(mBitmap);
         contourProcessing = new ContourProcessing();
-        foodsDialogList = new FoodsDialogList(this,selectedFoodsArea,recyclerView);
+        foodsDialogList = new FoodsDialogList(this,selectedFoodsArea,recyclerView,super.getContext());
 
     }
 
@@ -151,7 +151,7 @@ public class ImageViewCanvas extends View {
         else {
             //area é passada para o dialog pois ele que controla se o nome do alimento é inserido
             //na lista, então ele deve controlar tambem se a area será inserida.
-            foodsDialogList.run(super.getContext(), (int)area);
+            foodsDialogList.run((int)area);
         }
     }
 

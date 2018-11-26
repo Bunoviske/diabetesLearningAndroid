@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.bruno.diabeteslearning.Adapters.DataDisplayAdapter;
 import com.example.bruno.diabeteslearning.Carbohydrate.CarboDetector;
 import com.example.bruno.diabeteslearning.Carbohydrate.MealProperties;
+import com.example.bruno.diabeteslearning.Database.Firebase;
 import com.example.bruno.diabeteslearning.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -30,21 +31,14 @@ import java.util.concurrent.TimeUnit;
 
 public class DisplayDataActivity extends Activity {
 
+    private Context context = this;
     private CarboDetector carboDetector;
-    private Context context;
-    private DatabaseReference mDatabaseReference;
-    private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_displaydata);
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        mDatabaseReference = database.getReference();
-        context = this;
 
         carboDetector = new CarboDetector(
                 getIntent().getStringArrayListExtra("selectedFoodsName"),
@@ -96,13 +90,12 @@ public class DisplayDataActivity extends Activity {
     }
 
     private void configListView() {
-        mRecyclerView = findViewById(R.id.foodDataDisplayListView);
+        RecyclerView mRecyclerView = findViewById(R.id.foodDataDisplayListView);
         mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new DataDisplayAdapter(carboDetector.getFoods());
         mRecyclerView.setAdapter(mAdapter);
-
     }
 
 
@@ -155,13 +148,11 @@ public class DisplayDataActivity extends Activity {
     }
 
     private void addFirebase(){
-        HashMap<String, Object> entry = new HashMap<>();
-        Gson gson = new Gson();
-        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
-        //String timeStamp = String.valueOf(TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()));
-        String timeStamp = carboDetector.getTimeStamp();
-        String nome = sharedPreferences.getString(getString(R.string.pref_name_key), "");
-        String json = gson.toJson(carboDetector.getMealProperties());
-        mDatabaseReference.child(nome).child(timeStamp).setValue(json);
+
+        SharedPreferences sharedPreferences =
+                getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
+        String name = sharedPreferences.getString(getString(R.string.pref_name_key), "");
+        Firebase.getInstance().addLogEntry(carboDetector,name);
+
     }
 }

@@ -6,15 +6,13 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
+import java.util.ArrayList;
 
 import com.example.bruno.diabeteslearning.Adapters.FoodsListViewAdapter;
+import com.example.bruno.diabeteslearning.Database.Firebase;
 import com.example.bruno.diabeteslearning.ImagePaint.ImageViewCanvas;
 
-import java.util.ArrayList;
+
 
 public class FoodsDialogList {
 
@@ -26,26 +24,29 @@ public class FoodsDialogList {
 
     private int lastContourArea;
 
+    Context context;
+
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
 
     public FoodsDialogList(ImageViewCanvas imageView, ArrayList<Integer> areaArray,
-                           RecyclerView recyclerView) {
+                           RecyclerView recyclerView, Context context) {
 
         selectedFoodsArea = areaArray;
         imageViewCanvas = imageView;
         mRecyclerView = recyclerView;
+        this.context = context;
 
         mAdapter = new FoodsListViewAdapter(selectedFoodsName, imageViewCanvas);
         mRecyclerView.setAdapter(mAdapter);
 
-        allFoods.add("Arroz");
-        allFoods.add("Feijao");
-        allFoods.add("Carne");
-        allFoods.add("Saladaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        getAllFoodsFromDatabase();
 
-        //TODO - SALVAR LISTA COM NOMES DOS ALIMENTOS DO FIREBASE
+    }
+
+    private void getAllFoodsFromDatabase(){
+        allFoods = Firebase.getInstance().getAllFoods();
     }
 
     public ArrayList<String> getSelectedFoodsName(){
@@ -53,7 +54,7 @@ public class FoodsDialogList {
     }
 
 
-    public void run(Context context, int contourArea) {
+    public void run(int contourArea) {
 
         lastContourArea = contourArea;
 

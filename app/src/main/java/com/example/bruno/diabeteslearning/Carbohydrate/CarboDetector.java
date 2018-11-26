@@ -2,30 +2,23 @@ package com.example.bruno.diabeteslearning.Carbohydrate;
 
 import android.util.Log;
 
-import java.io.Serializable;
+import com.example.bruno.diabeteslearning.Database.Firebase;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 
 public class CarboDetector extends MealProperties {
 
-    private float constant;
-    private static String TAG = "CarboDetector";
-
     public CarboDetector(ArrayList<String> selectedFoodsName,
-
                          ArrayList<Integer> selectedFoodsArea){
 
         setTimeStamp();
+        saveFoodsRegions(selectedFoodsName,selectedFoodsArea);
 
-        for (int i = 0; i < selectedFoodsName.size(); i++){
-            saveFoodRegion(selectedFoodsArea.get(i), selectedFoodsName.get(i));
-        }
     }
-
-    public MealProperties getMealProperties(){ return super.getMealProperties(); }
 
     public String getTimeStamp() {
         return timeStamp;
@@ -47,7 +40,7 @@ public class CarboDetector extends MealProperties {
         return totalCarbo;
     }
 
-    public ArrayList<FoodRegion> getFoods(){
+    public ArrayList<ImageFoodRegion> getFoods(){
         return foods;
     }
 
@@ -85,15 +78,22 @@ public class CarboDetector extends MealProperties {
         }
     }
 
-    private void saveFoodRegion(int regionPixeis, String foodName){
+    private HashMap<String, FoodProperties> getFoodPropertiesFromDatabase(){
+        return Firebase.getInstance().getAllFoodsHashMap();
 
-        float carboRelation = (float)0.15;
-        float foodDensity = (float)0.7;
+    }
 
-        //TODO - CHAMAR FUNCAO QUE PEGA RELACAO DE CHO E DENSIDADE DO ALIMENTO NO FIREBASE
+    private void saveFoodsRegions(ArrayList<String> selectedFoodsName,
+                                  ArrayList<Integer> selectedFoodsArea){
 
-        foods.add(new FoodRegion(regionPixeis,carboRelation, foodDensity, foodName));
+        HashMap<String, FoodProperties> foodsHash = getFoodPropertiesFromDatabase();
 
+        for (int i = 0; i < selectedFoodsName.size(); i++) {
+            FoodProperties foodProperties = foodsHash.get(selectedFoodsName.get(i));
+
+            foods.add(new ImageFoodRegion(selectedFoodsArea.get(i),
+                                          selectedFoodsName.get(i), foodProperties));
+        }
     }
 
     public void calculateCarbo(){
@@ -102,10 +102,12 @@ public class CarboDetector extends MealProperties {
         for(int i = 0; i < foods.size();i++){
             aux += (foods.get(i).foodDensity * foods.get(i).regionPixeis);
         }
-        constant = totalFoodWeight/aux;
+        float constant = totalFoodWeight / aux;
         totalCarbo = 0;
 
-        for(int i = 0; i < foods.size();i++){
+        String TAG = "CarboDetector";
+
+        for(int i = 0; i < foods.size(); i++){
             foods.get(i).weight = foods.get(i).foodDensity * foods.get(i).regionPixeis * constant;
             foods.get(i).carbo = foods.get(i).weight * foods.get(i).carboRelation;
             totalCarbo += foods.get(i).carbo;

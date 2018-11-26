@@ -22,6 +22,8 @@ import android.widget.LinearLayout;
 
 import com.example.bruno.diabeteslearning.Adapters.HistoryAdapter;
 import com.example.bruno.diabeteslearning.Carbohydrate.CarboDetector;
+import com.example.bruno.diabeteslearning.Database.Firebase;
+import com.example.bruno.diabeteslearning.Database.LogListener;
 import com.example.bruno.diabeteslearning.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,11 +47,8 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
 
     private final int MY_PERMISSIONS_REQUEST_CAMERA = 101;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private DatabaseReference mDatabaseReference;
-    private List<CarboDetector> entries;
-    private RecyclerView mRecyclerView;
-    private LinearLayoutManager mLayoutManager;
     private HistoryAdapter mHistoryAdapter;
+    List<CarboDetector> entries = new ArrayList<>();
     String mCurrentPhotoPath;
 
 
@@ -59,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
         setContentView(R.layout.activity_history);
         //Toolbar myToolbar = findViewById(R.id.my_toolbar);
         //setSupportActionBar(myToolbar);
-        entries = new ArrayList<>();
 
         Intent preferences_intent = new Intent(this, PreferencesActivity.class);
 
@@ -69,41 +67,26 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
             startActivity(preferences_intent);
         }
 
-        String nome = sharedPreferences.getString(getString(R.string.pref_name_key), "");
+        String name = sharedPreferences.getString(getString(R.string.pref_name_key), "");
         configListView();
-        configDatabase(nome);
+        configDatabase(name);
     }
 
-    private void configDatabase(String nome){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        database.setPersistenceEnabled(true);
-        mDatabaseReference = database.getReference().child(nome);
+    private void configDatabase(String name){
 
-
-        ValueEventListener postListener = new ValueEventListener() {
+        Firebase.getInstance().setLogReference(getString(R.string.log));
+        Firebase.getInstance().getLogAsync(name);
+        Firebase.getInstance().setLogEventListener(new LogListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue() != null){
-                    entries.clear();
-                    Gson gson = new Gson();
-                    for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
-                        CarboDetector entry = gson.fromJson((String) dataSnapshot1.getValue(), CarboDetector.class);
-                        entries.add(entry);
-                    }
-                    if(null != mHistoryAdapter) {
-                        mHistoryAdapter.notifyDataSetChanged();
-                    }
+            public void onLogChanged(List<CarboDetector> log) {
+                entries.clear();
+                entries.addAll(log);
+                if(null != mHistoryAdapter) {
+                    mHistoryAdapter.notifyDataSetChanged();
                 }
             }
+        });
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                //TODO: mostrar mensagem de erro
-                Log.w("ui", "loadPost:onCancelled", databaseError.toException());
-                // ...
-            }
-        };
-        mDatabaseReference.addValueEventListener(postListener);
     }
 
     private File createImageFile() throws IOException {
@@ -162,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
 
     private void configListView() {
         mHistoryAdapter = new HistoryAdapter(this, this);
-        mRecyclerView = findViewById(R.id.rv_history);
+        RecyclerView mRecyclerView = findViewById(R.id.rv_history);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
@@ -170,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
         mHistoryAdapter.setHistoryList(entries);
 
         // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
     }
 

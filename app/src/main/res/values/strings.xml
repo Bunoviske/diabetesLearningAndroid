@@ -17,5 +17,9 @@
     //******************STRINGS HISTORY ACTIVITY*************//
     <string name="refeicoes">Suas refeições</string>
 
+    //******************STRINGS DATABASE*************//
+    <string name="alimentos">Foods</string>
+    <string name="log">Log</string>
+
 
 </resources>

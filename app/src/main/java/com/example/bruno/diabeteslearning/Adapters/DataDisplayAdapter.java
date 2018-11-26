@@ -4,10 +4,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.bruno.diabeteslearning.Carbohydrate.FoodRegion;
+import com.example.bruno.diabeteslearning.Carbohydrate.ImageFoodRegion;
 import com.example.bruno.diabeteslearning.R;
 
 import java.text.DecimalFormat;
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 
 public class DataDisplayAdapter extends RecyclerView.Adapter<DataDisplayAdapter.MyViewHolder> {
 
-    private ArrayList<FoodRegion> mDataset;
+    private ArrayList<ImageFoodRegion> mDataset;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
@@ -31,7 +30,7 @@ public class DataDisplayAdapter extends RecyclerView.Adapter<DataDisplayAdapter.
         }
     }
 
-    public DataDisplayAdapter(ArrayList<FoodRegion> data){
+    public DataDisplayAdapter(ArrayList<ImageFoodRegion> data){
         mDataset = data;
     }
 
