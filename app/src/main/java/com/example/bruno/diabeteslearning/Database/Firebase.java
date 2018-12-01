@@ -22,6 +22,7 @@ public class Firebase {
 
     private static final Firebase ourInstance = new Firebase();
     private LogListener logListener;
+    private LocalFirebaseListener localFirebaseListener;
 
     private HashMap<String, FoodProperties> allFoodsHashMap =  new HashMap<>();
     private List<String> sortedKeys = new ArrayList<>();
@@ -29,15 +30,24 @@ public class Firebase {
     private FirebaseDatabase mDatabase;
     private DatabaseReference mLogReference;
     private DatabaseReference mFoodReference;
+    private boolean isLocalFirebaseOn = false;
 
     public static Firebase getInstance() {
         return ourInstance;
     }
 
     private Firebase() {
+        initFirebase();
+    }
+
+    private void initFirebase(){
         mDatabase = FirebaseDatabase.getInstance();
         mDatabase.setPersistenceEnabled(true);
         getAllFoodsAsync();
+    }
+
+    public void retryFirebaseConnection(){
+        initFirebase();
     }
 
     public ArrayList<String> getAllFoods() {
@@ -68,7 +78,13 @@ public class Firebase {
                         allFoodsHashMap.put(dataSnapshot1.getKey(),entry);
                     }
                     sortKeys();
+                    isLocalFirebaseOn = true;
+                    if (localFirebaseListener != null)
+                        localFirebaseListener.onLocalFirebaseLoaded(true);
                 }
+                else{
+                    if (localFirebaseListener != null)
+                        localFirebaseListener.onLocalFirebaseLoaded(false);                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -107,7 +123,8 @@ public class Firebase {
                 if(dataSnapshot.getValue() != null){
                     Gson gson = new Gson();
                     for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren()) {
-                        CarboDetector entry = gson.fromJson((String) dataSnapshot1.getValue(), CarboDetector.class);
+                        CarboDetector entry = gson.fromJson(dataSnapshot1.getValue().toString(),
+                                                            CarboDetector.class);
                         entries.add(entry);
                     }
                 }
@@ -131,5 +148,12 @@ public class Firebase {
         mLogReference.child(name).child(timeStamp).setValue(json);
     }
 
+    public void setLocalFirebaseListener(LocalFirebaseListener localFirebaseListener){
+        this.localFirebaseListener = localFirebaseListener;
+    }
 
+
+    public boolean isLocalFirebaseOn() {
+        return isLocalFirebaseOn;
+    }
 }
