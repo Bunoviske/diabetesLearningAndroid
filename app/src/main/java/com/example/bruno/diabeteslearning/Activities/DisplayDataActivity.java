@@ -168,10 +168,18 @@ public class DisplayDataActivity extends AppCompatActivity {
 
     private void addFirebase(){
 
+        Firebase.getInstance().addLogEntry(carboDetector,getAuthName());
+
+    }
+
+    private String getAuthName(){
+
         SharedPreferences sharedPreferences =
                 getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
-        String name = sharedPreferences.getString(getString(R.string.pref_name_key), "");
-        Firebase.getInstance().addLogEntry(carboDetector,name);
+        String emailWithoutPoints = sharedPreferences.getString(getString(R.string.pref_email_key),"");
+        emailWithoutPoints = emailWithoutPoints.replace("."," ");
+        return sharedPreferences.getString(
+                getString(R.string.pref_name_key), "") + ": " + emailWithoutPoints;
 
     }
 }

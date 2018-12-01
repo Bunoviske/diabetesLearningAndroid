@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int PREFERENCES_ACTIVITY = 2;
     private SharedPreferences sharedPreferences;
+    private String authName;
 
     private HistoryAdapter mHistoryAdapter;
     List<CarboDetector> entries = new ArrayList<>();
@@ -74,8 +75,8 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
         if (sharedPreferences.getString(getString(R.string.pref_name_key), "").equals("")) {
             startActivityForResult(preferences_intent, PREFERENCES_ACTIVITY);
         } else {
-            configDatabase(sharedPreferences.getString(
-                    getString(R.string.pref_name_key), ""));
+            setAuthName();
+            configDatabase(authName);
         }
     }
 
@@ -166,6 +167,15 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
         mRecyclerView.setLayoutManager(mLayoutManager);
     }
 
+    private void setAuthName(){
+
+        String emailWithoutPoints = sharedPreferences.getString(getString(R.string.pref_email_key),"");
+        emailWithoutPoints = emailWithoutPoints.replace("."," ");
+        authName = sharedPreferences.getString(
+                   getString(R.string.pref_name_key), "") + ": " + emailWithoutPoints;
+
+    }
+
     public void takePictureButtonCallback(View v) {
         if (isCameraPermissionOn()) {
             dispatchTakePictureIntent();
@@ -181,8 +191,8 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
             i.putExtra("bitmapUri", mCurrentPhotoPath);
             startActivity(i);
         } else if (requestCode == PREFERENCES_ACTIVITY && resultCode == RESULT_OK) {
-            configDatabase(sharedPreferences.getString(
-                    getString(R.string.pref_name_key), ""));
+            setAuthName();
+            configDatabase(authName);
         }
     }
 
