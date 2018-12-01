@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.hardware.Camera;
 import android.media.ExifInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.Size;
 import android.view.View;
 
 import com.example.bruno.diabeteslearning.ImagePaint.ImageViewCanvas;
@@ -19,12 +21,14 @@ import com.example.bruno.diabeteslearning.R;
 
 import org.opencv.android.OpenCVLoader;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 
 public class ImageActivity extends AppCompatActivity {
 
-    private static String TAG = "ImageActivity";
+    private final static String TAG = ImageActivity.class.getSimpleName();
     private ImageViewCanvas imageViewCanvas;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -56,6 +60,7 @@ public class ImageActivity extends AppCompatActivity {
 
         mCurrentPhotoPath = getIntent().getStringExtra("bitmapUri");
         showBitmap(getBitmap());
+        deleteImageFile();
     }
 
     private Bitmap getBitmap() {
@@ -80,10 +85,22 @@ public class ImageActivity extends AppCompatActivity {
         Matrix matrix = new Matrix();
         matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2,
                 (float) bm.getHeight() / 2);
+
+
         return Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(),
-                                    matrix, true);
+                matrix, true);
     }
 
+    private void deleteImageFile() {
+        File file = new File(mCurrentPhotoPath);
+        boolean delete = file.delete();
+        if (!delete){
+            Log.e(TAG, "Erro deletando imagem da memoria cache");
+        }
+        else{
+            Log.i(TAG, "Imagem deletada com sucesso");
+        }
+    }
 
     private void showBitmap(Bitmap bitmap){
 
