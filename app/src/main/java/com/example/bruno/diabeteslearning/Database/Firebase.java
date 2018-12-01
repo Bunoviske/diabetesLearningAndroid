@@ -103,6 +103,7 @@ public class Firebase {
 
     private void setFoodsReference() {
         mFoodReference = mDatabase.getReference().child("Foods");
+        mFoodReference.keepSynced(false);
     }
 
     public void setLogEventListener(LogListener logListener){
@@ -111,6 +112,7 @@ public class Firebase {
 
     public void setLogReference(String firstChild){
         mLogReference = mDatabase.getReference().child(firstChild);
+        mLogReference.keepSynced(false);
     }
     public void getLogAsync(String nome){
         DatabaseReference reference = mLogReference.child(nome);
