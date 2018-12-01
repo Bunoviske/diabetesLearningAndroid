@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bruno.diabeteslearning.Adapters.DataDisplayAdapter;
 import com.example.bruno.diabeteslearning.Carbohydrate.CarboDetector;
@@ -34,6 +35,7 @@ public class DisplayDataActivity extends Activity {
     private Context context = this;
     private CarboDetector carboDetector;
     private RecyclerView.Adapter mAdapter;
+    private boolean isNextPagePermited = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +82,11 @@ public class DisplayDataActivity extends Activity {
                 if (!s.toString().equals("")){
                     carboDetector.setTotalFoodWeight(Float.parseFloat(s.toString()));
                     carboDetector.calculateCarbo();
+                    isNextPagePermited = true;
                 }
                 else{
                     carboDetector.clearFoodsCalculus();
+                    isNextPagePermited = false;
                 }
                 displayData();
             }
@@ -136,13 +140,19 @@ public class DisplayDataActivity extends Activity {
     }
 
     private void configButton() {
+
         FloatingActionButton imageButton = findViewById(R.id.nextPageButtonDisplayActivity);
         imageButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                addFirebase();
-                Intent intent = new Intent(context, MainActivity.class);
-                startActivity(intent);
+                if (isNextPagePermited) {
+                    addFirebase();
+                    Intent intent = new Intent(context, MainActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(context, "Insira o peso total",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
