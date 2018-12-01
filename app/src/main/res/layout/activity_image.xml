@@ -27,7 +27,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/foodsListView"
-        android:layout_width="273dp"
+        android:layout_width="258dp"
         android:layout_height="78dp"
         android:layout_marginBottom="6dp"
         android:layout_marginRight="105dp"

@@ -112,14 +112,24 @@ public class ImageActivity extends AppCompatActivity {
             DisplayMetrics metrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
+            int origHeight = bitmap.getHeight();
+            int origWidth = bitmap.getWidth();
+            float origProportion = origHeight/origWidth;
+
             int height = (int) (metrics.heightPixels*0.8); // 80% scaled
             int width = metrics.widthPixels;
+            float proportion = height/width;
 
-            //altura dp declarada no arquivo xml. N consegui extrair dinamicamente
-            //int heightDp = 520;
-            //int imageHeight = Math.round(heightDp * (metrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+            float distortionPermitted = (float)0.1; //0% de distorção permitido
 
-            bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
+            if (Math.min(proportion,origProportion)/Math.max(proportion,origProportion)
+                    >= 1 - distortionPermitted){
+                bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
+            }
+            else {
+                //TODO - O QUE FAZER PARA CELULARES QUE DEIXAM IMAGEM DISTORCIDA???
+                bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
+            }
 
             imageViewCanvas.init(bitmap,  mRecyclerView);
 

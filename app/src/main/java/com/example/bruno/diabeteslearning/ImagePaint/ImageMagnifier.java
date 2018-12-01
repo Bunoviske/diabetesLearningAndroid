@@ -19,8 +19,9 @@ public class ImageMagnifier{
     private Matrix matrix;
     private Paint paint;
     private BitmapShader shader;
-    private int sizeOfMagnifier = 200;
+    private int sizeOfMagnifier = 100;
     private int circleOffset = 150;
+    private float zoom = 1.3f;
 
     public ImageMagnifier() {
         init();
@@ -43,7 +44,7 @@ public class ImageMagnifier{
         paint = new Paint();
         paint.setShader(shader);
         matrix.reset();
-        matrix.postScale(2f, 2f, zoomPos.x, zoomPos.y + circleOffset);
+        matrix.postScale(zoom, zoom, zoomPos.x, zoomPos.y + ((2.5f*zoom)*circleOffset));
         paint.getShader().setLocalMatrix(matrix);
         canvas.drawCircle(zoomPos.x , zoomPos.y - circleOffset, sizeOfMagnifier, paint);
     }

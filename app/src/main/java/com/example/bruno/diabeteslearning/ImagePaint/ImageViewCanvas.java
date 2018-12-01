@@ -29,7 +29,7 @@ public class ImageViewCanvas extends View {
 
     private static String TAG = "ImageViewCanvas";
 
-    private static int BRUSH_SIZE = 10; //espessura da linha
+    private static int BRUSH_SIZE = 7; //espessura da linha
     private static final int RED_COLOR = Color.RED;
     private static final int GRAY_COLOR = Color.GRAY;
 
