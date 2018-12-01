@@ -1,5 +1,6 @@
 package com.example.bruno.diabeteslearning.Activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -18,7 +19,6 @@ public class PreferencesActivity extends AppCompatActivity {
 
     private EditText mNameEditText;
     private EditText mEmailEditText;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,8 @@ public class PreferencesActivity extends AppCompatActivity {
             saveUserProfilePreferences(userProfile);
             Toast.makeText(this, "Salvo com Sucesso",
                     Toast.LENGTH_SHORT).show();
+
+            setResult(Activity.RESULT_OK, null);
             finish();
 
         } else if (userProfile.name.isEmpty() && !userProfile.email.isEmpty()){
@@ -69,12 +71,12 @@ public class PreferencesActivity extends AppCompatActivity {
 
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        if (id == android.R.id.home) {
+//            finish();
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 }

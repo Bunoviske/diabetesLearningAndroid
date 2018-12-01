@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -47,6 +48,9 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
 
     private final int MY_PERMISSIONS_REQUEST_CAMERA = 101;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int PREFERENCES_ACTIVITY = 2;
+    private SharedPreferences sharedPreferences;
+
     private HistoryAdapter mHistoryAdapter;
     List<CarboDetector> entries = new ArrayList<>();
     String mCurrentPhotoPath;
@@ -59,20 +63,24 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
         //Toolbar myToolbar = findViewById(R.id.my_toolbar);
         //setSupportActionBar(myToolbar);
 
+        configListView();
+        sharedPreferences =
+                getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
+
+
         Intent preferences_intent = new Intent(this, PreferencesActivity.class);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.pref_key), Context.MODE_PRIVATE);
-
-        if(sharedPreferences.getString(getString(R.string.pref_name_key), "").equals("")){
-            startActivity(preferences_intent);
+        //se for a primeira vez usando o app, so chama o
+        //configDatabase depois do resultado da preferences activity
+        if (sharedPreferences.getString(getString(R.string.pref_name_key), "").equals("")) {
+            startActivityForResult(preferences_intent, PREFERENCES_ACTIVITY);
+        } else {
+            configDatabase(sharedPreferences.getString(
+                    getString(R.string.pref_name_key), ""));
         }
-
-        String name = sharedPreferences.getString(getString(R.string.pref_name_key), "");
-        configListView();
-        configDatabase(name);
     }
 
-    private void configDatabase(String name){
+    private void configDatabase(String name) {
 
         Firebase.getInstance().setLogReference(getString(R.string.log));
         Firebase.getInstance().getLogAsync(name);
@@ -81,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
             public void onLogChanged(List<CarboDetector> log) {
                 entries.clear();
                 entries.addAll(log);
-                if(null != mHistoryAdapter) {
+                if (null != mHistoryAdapter) {
                     mHistoryAdapter.notifyDataSetChanged();
                 }
             }
@@ -91,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.SHORT)
+        String timeStamp = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT)
                 .format(new Date());
 
         String imageFileName = "JPG_" + timeStamp;
@@ -107,37 +115,39 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
         return image;
     }
 
-    private void dispatchTakePictureIntent() {
-
+    private boolean isCameraPermissionOn() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED)
-        {
+                != PackageManager.PERMISSION_GRANTED) {
 
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.CAMERA},
                     MY_PERMISSIONS_REQUEST_CAMERA);
+
+            return false;
         }
-        else
-        {
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            // Ensure that there's a camera activity to handle the intent
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                // Create the File where the photo should go
-                File photoFile = null;
-                try {
-                    photoFile = createImageFile();
-                } catch (IOException ex) {
-                    // Error occurred while creating the File
-                }
-                // Continue only if the File was successfully created
-                if (photoFile != null) {
-                    Uri photoURI = FileProvider.getUriForFile(this,
-                            "com.example.android.fileprovider",
-                            photoFile);
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                }
+        return true;
+    }
+
+    private void dispatchTakePictureIntent() {
+
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.android.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
         }
     }
@@ -157,17 +167,31 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
         mRecyclerView.setLayoutManager(mLayoutManager);
     }
 
-    public void takePictureButtonCallback(View v){
-        dispatchTakePictureIntent();
+    public void takePictureButtonCallback(View v) {
+        if (isCameraPermissionOn()) {
+            dispatchTakePictureIntent();
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
             Intent i = new Intent(this, ImageActivity.class);
             i.putExtra("bitmapUri", mCurrentPhotoPath);
             startActivity(i);
+        } else if (requestCode == PREFERENCES_ACTIVITY && resultCode == RESULT_OK) {
+            configDatabase(sharedPreferences.getString(
+                    getString(R.string.pref_name_key), ""));
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MY_PERMISSIONS_REQUEST_CAMERA && grantResults[0] == 0) {
+            dispatchTakePictureIntent();
         }
     }
 
