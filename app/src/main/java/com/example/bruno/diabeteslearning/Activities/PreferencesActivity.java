@@ -32,12 +32,6 @@ public class PreferencesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
 
-        ActionBar actionBar = this.getSupportActionBar();
-
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-
         mNameEditText = findViewById(R.id.edit_text_name);
         mEmailEditText = findViewById(R.id.edit_text_email);
 

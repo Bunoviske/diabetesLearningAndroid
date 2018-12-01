@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -30,7 +32,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-public class DisplayDataActivity extends Activity {
+public class DisplayDataActivity extends AppCompatActivity {
 
     private Context context = this;
     private CarboDetector carboDetector;
@@ -41,6 +43,13 @@ public class DisplayDataActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_displaydata);
+
+        ActionBar actionBar = this.getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
 
         carboDetector = new CarboDetector(
                 getIntent().getStringArrayListExtra("selectedFoodsName"),

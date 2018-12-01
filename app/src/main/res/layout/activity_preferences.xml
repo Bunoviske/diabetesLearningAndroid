@@ -46,7 +46,7 @@
         android:layout_gravity="center"
         android:background="@color/colorPrimary"
         android:onClick="checkPreferenceData"
-        android:text="Continuar"
+        android:text="Salvar"
         android:textColor="@android:color/background_light" />
 
 

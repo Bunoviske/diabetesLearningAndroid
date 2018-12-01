@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".Activities.ImageActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
     <com.example.bruno.diabeteslearning.ImagePaint.ImageViewCanvas
         android:id="@+id/paintView"
         android:layout_width="wrap_content"
