@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Size;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.bruno.diabeteslearning.ImagePaint.ImageViewCanvas;
 import com.example.bruno.diabeteslearning.R;
@@ -156,13 +157,21 @@ public class ImageActivity extends AppCompatActivity {
         FloatingActionButton button = findViewById(R.id.nextPageButtonMainActivity);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent activity = new Intent(ImageActivity.super.getBaseContext(),
-                        DisplayDataActivity.class);
-                activity.putStringArrayListExtra("selectedFoodsName",
-                        imageViewCanvas.getSelectedFoodsName());
-                activity.putIntegerArrayListExtra("selectedFoodsArea",
-                        imageViewCanvas.getSelectedFoodsArea());
-                startActivity(activity);
+
+                if (!imageViewCanvas.getSelectedFoodsName().isEmpty()) {
+                    Intent activity = new Intent(ImageActivity.super.getBaseContext(),
+                            DisplayDataActivity.class);
+                    activity.putStringArrayListExtra("selectedFoodsName",
+                            imageViewCanvas.getSelectedFoodsName());
+                    activity.putIntegerArrayListExtra("selectedFoodsArea",
+                            imageViewCanvas.getSelectedFoodsArea());
+                    startActivity(activity);
+                }
+                else{
+                    Toast.makeText(ImageActivity.super.getBaseContext(),
+                            "Circule pelo menos um alimento",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
