@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: /home/bruno/AndroidStudioProjects/DiabetesLearning/openCVLibrary310/src/main/aidl/org/opencv/engine/OpenCVEngineInterface.aidl
+ * Original file: /home/tom/Documents/diabeteslearningapp/openCVLibrary310/src/main/aidl/org/opencv/engine/OpenCVEngineInterface.aidl
  */
 package org.opencv.engine;
 /**
