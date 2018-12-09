@@ -18,8 +18,8 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_history"
-        android:layout_width="199dp"
-        android:layout_height="400dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="92dp"
         android:orientation="vertical"
         app:layout_constraintHorizontal_bias="0.502"

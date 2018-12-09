@@ -207,6 +207,10 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
 
     @Override
     public void onClick(int position) {
-
+        Intent i = new Intent(this, DetailsActivity.class);
+        Bundle b = new Bundle();
+        b.putSerializable("carboDetector", entries.get(position));
+        i.putExtra("carboDetector", b);
+        startActivity(i);
     }
 }
