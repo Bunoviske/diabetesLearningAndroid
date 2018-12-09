@@ -65,8 +65,8 @@ public class CarboDetector extends MealProperties {
     }
 
     private void setTimeStamp(){
-        timeStamp = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.SHORT)
-                .format(new Date());
+        //timestamp é setted quando salva a imagem no firebase
+        timeStamp = Firebase.getInstance().getTimeStamp();
     }
 
     private void setInsulinDose(){

@@ -82,8 +82,9 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
 
     private void configDatabase(String name) {
 
+        Firebase.getInstance().setAuthName(name);
         Firebase.getInstance().setLogReference(getString(R.string.log));
-        Firebase.getInstance().getLogAsync(name);
+        Firebase.getInstance().getLogAsync();
         Firebase.getInstance().setLogEventListener(new LogListener() {
             @Override
             public void onLogChanged(List<CarboDetector> log) {

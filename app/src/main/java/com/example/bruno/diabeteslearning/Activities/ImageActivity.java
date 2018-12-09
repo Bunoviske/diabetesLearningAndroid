@@ -4,21 +4,19 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
-import android.hardware.Camera;
 import android.media.ExifInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.util.Size;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.bruno.diabeteslearning.Database.Firebase;
+import com.example.bruno.diabeteslearning.Database.UploadFileListener;
 import com.example.bruno.diabeteslearning.ImagePaint.ImageViewCanvas;
 import com.example.bruno.diabeteslearning.R;
 
@@ -26,7 +24,6 @@ import org.opencv.android.OpenCVLoader;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 
 public class ImageActivity extends AppCompatActivity {
@@ -62,7 +59,6 @@ public class ImageActivity extends AppCompatActivity {
 //            actionBar.setDisplayHomeAsUpEnabled(true);
 //        }
 
-
         configButton();
         configListView();
 
@@ -70,8 +66,37 @@ public class ImageActivity extends AppCompatActivity {
 //        showBitmap(bitmap);
 
         mCurrentPhotoPath = getIntent().getStringExtra("bitmapUri");
-        showBitmap(getBitmap());
-        deleteImageFile();
+
+        putImageInFirebaseStorage(showBitmap(getBitmap()));
+
+    }
+
+    private void putImageInFirebaseStorage(Bitmap image) {
+
+        if (image != null) {
+            int width = 240;
+            int height = 320;
+            if (image.getWidth() > image.getHeight()) {
+                width = 320;
+                height = 240;
+            }
+
+            Firebase.getInstance().setUploadFileListener(new UploadFileListener() {
+                @Override
+                public void onUploadFile(boolean sucess) {
+                    if (sucess) {
+                        deleteImageFile();
+                        Log.i(TAG, "Upload ok to Firebase Storage");
+                    } else {
+                        //TODO - nao sei o que fazer aqui. Deletar mesmo assim?
+                        deleteImageFile();
+                        Log.e(TAG, "Upload error to Firebase Storage");
+                    }
+                }
+            });
+            Firebase.getInstance().
+                    saveImage(Bitmap.createScaledBitmap(image, width, height, true));
+        }
     }
 
     private Bitmap getBitmap() {
@@ -97,9 +122,15 @@ public class ImageActivity extends AppCompatActivity {
         matrix.setRotate(rotationAngle, (float) bm.getWidth() / 2,
                 (float) bm.getHeight() / 2);
 
+        //se a imagem for tirada no modo paisagem, rotaciona ela novamente
+        if (bm.getWidth() > bm.getHeight()){
+            matrix.setRotate(90, (float) bm.getWidth() / 2,
+                    (float) bm.getHeight() / 2);
+        }
 
         return Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(),
-                matrix, true);
+                        matrix, true);
+
     }
 
     private void deleteImageFile() {
@@ -113,7 +144,7 @@ public class ImageActivity extends AppCompatActivity {
         }
     }
 
-    private void showBitmap(Bitmap bitmap){
+    private Bitmap showBitmap(Bitmap bitmap){
 
         if(bitmap != null){
 
@@ -130,7 +161,7 @@ public class ImageActivity extends AppCompatActivity {
             int width = metrics.widthPixels;
             float proportion = height/width;
 
-            float distortionPermitted = (float)0.1; //0% de distorção permitido
+            float distortionPermitted = (float)0.1; //10% de distorção permitido
 
             if (Math.min(proportion,origProportion)/Math.max(proportion,origProportion)
                     >= 1 - distortionPermitted){
@@ -148,6 +179,8 @@ public class ImageActivity extends AppCompatActivity {
             Log.e(TAG, "Bitmap null");
 
         }
+        return bitmap;
+
     }
 
     @Override
