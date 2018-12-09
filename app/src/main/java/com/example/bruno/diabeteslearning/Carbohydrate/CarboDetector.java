@@ -4,13 +4,14 @@ import android.util.Log;
 
 import com.example.bruno.diabeteslearning.Database.Firebase;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
 
-public class CarboDetector extends MealProperties {
+public class CarboDetector extends MealProperties implements Serializable {
 
     public CarboDetector(ArrayList<String> selectedFoodsName,
                          ArrayList<Integer> selectedFoodsArea){
