@@ -33,6 +33,7 @@ public class ImageActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private String mCurrentPhotoPath;
+    private Bitmap image;
 
     static {
         if (OpenCVLoader.initDebug()){
@@ -67,8 +68,8 @@ public class ImageActivity extends AppCompatActivity {
 
         mCurrentPhotoPath = getIntent().getStringExtra("bitmapUri");
 
-        putImageInFirebaseStorage(showBitmap(getBitmap()));
-
+        image = showBitmap(getBitmap());
+        
     }
 
     private void putImageInFirebaseStorage(Bitmap image) {
@@ -212,6 +213,9 @@ public class ImageActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (!imageViewCanvas.getSelectedFoodsName().isEmpty()) {
+
+                    putImageInFirebaseStorage(image);
+
                     Intent activity = new Intent(ImageActivity.super.getBaseContext(),
                             DisplayDataActivity.class);
                     activity.putStringArrayListExtra("selectedFoodsName",
@@ -222,7 +226,7 @@ public class ImageActivity extends AppCompatActivity {
                 }
                 else{
                     Toast.makeText(ImageActivity.super.getBaseContext(),
-                            "Circule pelo menos um alimento",
+                            "Circule todos os alimentos",
                             Toast.LENGTH_LONG).show();
                 }
             }
