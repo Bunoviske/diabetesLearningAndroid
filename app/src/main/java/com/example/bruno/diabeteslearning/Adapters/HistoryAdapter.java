@@ -40,8 +40,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ResultsA
     @Override
     public void onBindViewHolder(@NonNull ResultsAdapterViewHolder holder, int position) {
         if(carboEntryList!=null){
-            //TODO = Set text do textview com epoch de cada entrada do historico
-            holder.textView.setText(carboEntryList.get(position).getTimeStamp());
+            //inverte a ordem que mostra o log (mostrar em ordem cronologica)
+            int index = carboEntryList.size() - position - 1;
+            holder.textView.setText(carboEntryList.get(index).getTimeStamp());
         }
     }
 
@@ -73,7 +74,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ResultsA
         @Override
         public void onClick(View v) {
             int adapterPos = getAdapterPosition();
-            mClickHandler.onClick(adapterPos);
+            int index = carboEntryList.size() - adapterPos - 1; //inverte para ordem cronologica
+            mClickHandler.onClick(index);
         }
     }
 

@@ -9,39 +9,36 @@
 
     <TextView
         android:id="@+id/dataDisplayTextView"
-        android:layout_width="302dp"
-        android:layout_height="137dp"
-        android:layout_marginBottom="330dp"
-        android:layout_marginRight="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/pesoTotalTextView"
         />
 
     <EditText
         android:id="@+id/carboRelation"
         android:layout_width="53dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="525dp"
-        android:layout_marginRight="212dp"
         android:ems="10"
         android:imeOptions="actionNext"
         android:inputType="number"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintBaseline_toBaselineOf="@id/relacaoTextView"
+        app:layout_constraintLeft_toRightOf="@id/relacaoTextView"
+        />
 
     <EditText
         android:id="@+id/totalWeight"
         android:layout_width="75dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="476dp"
-        android:layout_marginRight="164dp"
         android:ems="10"
         android:imeOptions="actionDone"
         android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintBaseline_toBaselineOf="@id/pesoTotalTextView"
+        app:layout_constraintLeft_toRightOf="@id/pesoTotalTextView" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/nextPageButtonDisplayActivity"
@@ -55,51 +52,56 @@
         app:layout_constraintRight_toRightOf="parent" />
 
     <TextView
-        android:id="@+id/pesoTotalTextView"
-        android:layout_width="119dp"
-        android:layout_height="28dp"
-        android:layout_marginBottom="484dp"
-        android:layout_marginRight="232dp"
-        android:text="Peso total (g):"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:text="Peso total (g):" />
-
-    <TextView
         android:id="@+id/relacaoTextView"
-        android:layout_width="119dp"
-        android:layout_height="28dp"
-        android:layout_marginBottom="532dp"
-        android:layout_marginRight="232dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginLeft="24dp"
         android:text="Relação 1:"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         tools:text="Relação 1:" />
+
+    <TextView
+        android:id="@+id/pesoTotalTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Peso total (g):"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/relacaoTextView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="15dp"
+        tools:text="Peso total (g):" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/foodDataDisplayListView"
-        android:layout_width="302dp"
-        android:layout_height="230dp"
-        android:layout_marginBottom="80dp"
-        android:layout_marginRight="48dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:scrollbars="vertical"
         android:fadeScrollbars="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintTop_toBottomOf="@id/tableDescriptors"
+         />
 
     <LinearLayout
-        android:layout_width="302dp"
-        android:layout_height="147dp"
-        android:layout_marginBottom="195dp"
-        android:layout_marginRight="48dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="0dp"
+        app:layout_constraintTop_toBottomOf="@id/dataDisplayTextView"
+        android:layout_marginRight="10dp"
+        android:id="@+id/tableDescriptors"
+        >
 
         <include
             layout="@layout/item_datadisplay_list_view"
-            android:id="@+id/tableDescriptors"
             />
 
 

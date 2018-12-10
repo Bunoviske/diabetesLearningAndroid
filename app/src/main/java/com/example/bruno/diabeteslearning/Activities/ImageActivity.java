@@ -157,7 +157,7 @@ public class ImageActivity extends AppCompatActivity {
             int origWidth = bitmap.getWidth();
             float origProportion = origHeight/origWidth;
 
-            int height = (int) (metrics.heightPixels*0.8); // 80% scaled
+            int height = (int)(metrics.heightPixels*0.75); // 75% scaled
             int width = metrics.widthPixels;
             float proportion = height/width;
 
