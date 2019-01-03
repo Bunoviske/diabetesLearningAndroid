@@ -69,7 +69,7 @@ public class ImageActivity extends AppCompatActivity {
         mCurrentPhotoPath = getIntent().getStringExtra("bitmapUri");
 
         image = showBitmap(getBitmap());
-        
+
     }
 
     private void putImageInFirebaseStorage(Bitmap image) {
