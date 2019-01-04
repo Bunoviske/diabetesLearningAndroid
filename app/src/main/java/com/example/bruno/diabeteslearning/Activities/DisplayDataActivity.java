@@ -27,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -120,7 +121,10 @@ public class DisplayDataActivity extends AppCompatActivity {
 
         text += "Carboidrato total: " + Math.round(carboDetector.getTotalCarbo()) + "g\n\n";
 
-        text += "Dose de insulina: " + Math.round(carboDetector.getInsulinDose()) + "u\n\n";
+        text += "Dose de insulina: " + String.format("%s", new DecimalFormat("##.#").format(
+                (carboDetector.getInsulinDose()))) + "u\n\n";
+        
+        //text += "Dose de insulina: " + Math.round(carboDetector.getInsulinDose()) + "u\n\n";
 
 
         mAdapter.notifyDataSetChanged();
