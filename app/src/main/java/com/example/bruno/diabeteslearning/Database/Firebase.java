@@ -217,7 +217,7 @@ public class Firebase {
 
     private void setTimeStamp(){
         timeStamp = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.SHORT)
-                .format(new Date());
+                .format(new Date()).replaceAll("\\.","-");
     }
 
     public String getTimeStamp() {

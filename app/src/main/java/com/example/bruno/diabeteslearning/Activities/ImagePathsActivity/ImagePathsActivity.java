@@ -61,14 +61,7 @@ public class ImagePathsActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onStop(){
-        imageAdjustment.deleteImageFile();
-        super.onStop();
-
-    }
-
-    private void configButtons(){
+     private void configButtons(){
 
         FloatingActionButton nextButton = findViewById(R.id.nextPageButtonMainActivity);
         nextButton.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +69,7 @@ public class ImagePathsActivity extends AppCompatActivity {
 
                 if (isNextButtonAllowed) {
 
-                    imageAdjustment.putImageInFirebaseStorage(image);
+                    imageAdjustment.putImageInFirebaseStorageAndDelete(image);
 
                     Intent activity = new Intent(ImagePathsActivity.super.getBaseContext(),
                             FoodSelectionActivity.class);

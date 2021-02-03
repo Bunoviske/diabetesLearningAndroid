@@ -30,31 +30,32 @@ public class ImageAdjustment {
     }
 
 
-    public void putImageInFirebaseStorage(Bitmap image) {
+    public void putImageInFirebaseStorageAndDelete(Bitmap image) {
 
         if (image != null) {
-            int width = 240;
-            int height = 320;
-            if (image.getWidth() > image.getHeight()) {
-                width = 320;
-                height = 240;
-            }
+
+//            int width = 240;
+//            int height = 320;
+//            if (image.getWidth() > image.getHeight()) {
+//                width = 320;
+//                height = 240;
+//            }
+//            Bitmap scaledImage = Bitmap.createScaledBitmap(image, width, height, true)
 
             Firebase.getInstance().setUploadFileListener(new UploadFileListener() {
                 @Override
                 public void onUploadFile(boolean sucess) {
                     if (sucess) {
-                        deleteImageFile();
                         Log.i(TAG, "Upload ok to Firebase Storage");
+                        deleteImageFile();
                     } else {
                         //TODO - nao sei o que fazer aqui. Deletar mesmo assim?
-                        deleteImageFile();
                         Log.e(TAG, "Upload error to Firebase Storage");
+                        deleteImageFile();
                     }
                 }
             });
-            Firebase.getInstance().
-                    saveImage(Bitmap.createScaledBitmap(image, width, height, true));
+            Firebase.getInstance().saveImage(image);
         }
     }
 
@@ -103,6 +104,7 @@ public class ImageAdjustment {
         boolean delete = file.delete();
         if (!delete){
             Log.e(TAG, "Erro deletando imagem da memoria");
+            Log.e(TAG, "deleteImageFile: " + mCurrentPhotoPath);
         }
         else{
             Log.i(TAG, "Imagem deletada com sucesso");

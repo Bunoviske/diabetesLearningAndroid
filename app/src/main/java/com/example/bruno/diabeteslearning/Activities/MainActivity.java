@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
         //se for a primeira vez usando o app, so chama o
         //configDatabase depois do resultado da preferences activity
         if (sharedPreferences.getString(getString(R.string.pref_name_key), "").equals("")) {
-            startActivityForResult(preferences_intent, PREFERENCES_ACTIVITY);
+            startActivityForResult(preferences_intent, PREFERENCES_ACTIVITY); //setAuthName e configDatabase sao chamadas em onActiviyResult
         } else {
             setAuthName();
             configDatabase(authName);
