@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-//VERSAO ESTAVEL V1.0 CIRCULANDO OS ALIMENTOS COM A LUPA
+//VERSAO ESTAVEL V2.0 USANDO WATERSHED PARA SEGMENTAR ALIMENTOS
 
 public class MainActivity extends AppCompatActivity implements HistoryAdapter.ResultsAdapterOnClickHandler {
 
