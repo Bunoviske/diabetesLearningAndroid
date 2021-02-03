@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.ImageActivity">
+    tools:context=".Activities.ImagePathsActivity.ImagePathsActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
@@ -14,8 +14,8 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <com.example.bruno.diabeteslearning.ImagePaint.ImageViewCanvas
-        android:id="@+id/paintView"
+    <com.example.bruno.diabeteslearning.ImageCanvas.ImagePathCanvas
+        android:id="@+id/paintViewPathCanvas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
@@ -33,20 +33,34 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/foodsListView"
-        android:layout_width="258dp"
-        android:layout_height="78dp"
-        android:layout_marginBottom="6dp"
-        android:layout_marginRight="105dp"
-        android:fadeScrollbars="false"
-        android:scrollbars="vertical"
+    <Button
+        android:id="@+id/findRegionsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="Achar alimentos"
+        android:textColor="#FFFF"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="@id/nextPageButtonMainActivity"
+        app:layout_constraintRight_toLeftOf="@id/nextPageButtonMainActivity"
+ />
+
+    <Button
+        android:id="@+id/clearPathsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:text="Limpar"
+        android:textColor="#FFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@id/nextPageButtonMainActivity"
+        app:layout_constraintRight_toLeftOf="@id/findRegionsButton"
+ />
+
 
 
 </android.support.constraint.ConstraintLayout>

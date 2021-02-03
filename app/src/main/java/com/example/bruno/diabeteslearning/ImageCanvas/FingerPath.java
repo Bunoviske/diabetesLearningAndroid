@@ -1,4 +1,4 @@
-package com.example.bruno.diabeteslearning.ImagePaint;
+package com.example.bruno.diabeteslearning.ImageCanvas;
 
 import android.graphics.Path;
 

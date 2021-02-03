@@ -39,6 +39,7 @@ public class PreferencesActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //do nothing
+
     }
 
     //SAVE BUTTON CLICK LISTENER

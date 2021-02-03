@@ -1,23 +1,22 @@
 package com.example.bruno.diabeteslearning.Adapters;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
-import com.example.bruno.diabeteslearning.ImagePaint.ImageViewCanvas;
 import com.example.bruno.diabeteslearning.R;
+import com.example.bruno.diabeteslearning.Dialogs.ListViewListener;
 
 import java.util.ArrayList;
 
-public class FoodsListViewAdapter extends  RecyclerView.Adapter<FoodsListViewAdapter.MyViewHolder>{
+public class FoodsListViewAdapter extends RecyclerView.Adapter<FoodsListViewAdapter.MyViewHolder>{
 
     private ArrayList<String> mDataset;
-    private ImageViewCanvas imageViewCanvas;
+    private ArrayList<Integer> selectedFoodsArea;
+
+    private ListViewListener listViewListener;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -35,9 +34,13 @@ public class FoodsListViewAdapter extends  RecyclerView.Adapter<FoodsListViewAda
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public FoodsListViewAdapter(ArrayList<String> dataset, ImageViewCanvas imgCanvas) {
-        imageViewCanvas = imgCanvas;
+    public FoodsListViewAdapter(ArrayList<String> dataset,ArrayList<Integer> areaArray) {
         mDataset = dataset;
+        selectedFoodsArea = areaArray;
+    }
+
+    public void setListViewListener(ListViewListener listViewListener) {
+        this.listViewListener = listViewListener;
     }
 
     // Create new views (invoked by the layout manager)
@@ -65,8 +68,8 @@ public class FoodsListViewAdapter extends  RecyclerView.Adapter<FoodsListViewAda
 
                 mDataset.remove(position);
                 notifyDataSetChanged();
-                imageViewCanvas.removeSpecificAreaFromPath(position);
-                imageViewCanvas.callClearSpecificPath(position);
+                selectedFoodsArea.remove(position);
+                listViewListener.onFoodClick(position);
 
             }
         });

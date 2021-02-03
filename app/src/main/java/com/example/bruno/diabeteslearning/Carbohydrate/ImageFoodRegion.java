@@ -2,7 +2,6 @@ package com.example.bruno.diabeteslearning.Carbohydrate;
 
 public class ImageFoodRegion extends FoodProperties {
 
-    //TODO - variaveis a serem ENVIADAS para firebase
     public int regionPixeis;
     public float weight;
     public float carbo;

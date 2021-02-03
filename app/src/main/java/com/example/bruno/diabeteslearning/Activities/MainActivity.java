@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.media.MediaDataSource;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,32 +18,24 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.text.method.MultiTapKeyListener;
 import android.view.View;
-import android.widget.LinearLayout;
 
+import com.example.bruno.diabeteslearning.Activities.ImagePathsActivity.ImagePathsActivity;
 import com.example.bruno.diabeteslearning.Adapters.HistoryAdapter;
 import com.example.bruno.diabeteslearning.Carbohydrate.CarboDetector;
 import com.example.bruno.diabeteslearning.Database.Firebase;
 import com.example.bruno.diabeteslearning.Database.LogListener;
 import com.example.bruno.diabeteslearning.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
-import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+//VERSAO ESTAVEL V1.0 CIRCULANDO OS ALIMENTOS COM A LUPA
 
 public class MainActivity extends AppCompatActivity implements HistoryAdapter.ResultsAdapterOnClickHandler {
 
@@ -147,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
                 Uri photoURI = FileProvider.getUriForFile(this,
                         "com.example.android.fileprovider",
                         photoFile);
+
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
@@ -188,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements HistoryAdapter.Re
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
-            Intent i = new Intent(this, ImageActivity.class);
+            Intent i = new Intent(this, ImagePathsActivity.class);
             i.putExtra("bitmapUri", mCurrentPhotoPath);
             startActivity(i);
         } else if (requestCode == PREFERENCES_ACTIVITY && resultCode == RESULT_OK) {
