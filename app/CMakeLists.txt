@@ -1,9 +1,8 @@
 #set(pathToProject /home/tom/Documents/diabeteslearningapp) #projeto do android
 #set(pathToOpenCv /home/tom/Downloads/OpenCV-android-sdk) #opencv android sdk
 
-set(pathToProject /home/bruno/AndroidStudioProjects/DiabetesLearning) #projeto do android
-set(pathToOpenCv /home/bruno/Downloads/OpenCV-3.1.0-android-sdk) #opencv android sdk
-
+set(pathToProject C:/Users/bruno/Documents/diabetesLearning/diabetesLearningAndroid) #projeto do android
+set(pathToOpenCv C:/Users/bruno/Documents/diabetesLearning/OpenCV-android-sdk) #opencv android sdk
 
 # For more information about using CMake with Android Studio, read the
 # documentation: https://d.android.com/studio/projects/add-native-code.html
