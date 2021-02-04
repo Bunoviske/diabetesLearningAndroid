@@ -3,8 +3,8 @@
     package="com.example.bruno.diabeteslearning">
 
     <application
-        android:icon="@mipmap/ic_launcher_diabetes"
-        android:roundIcon="@mipmap/ic_launcher_foreground_diabe"
+        android:icon="@mipmap/app_icon"
+        android:roundIcon="@mipmap/app_icon_round"
         android:label="@string/app_name"
         android:theme="@style/AppTheme.NoActionBar">
 

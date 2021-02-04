@@ -21,5 +21,7 @@
     <string name="alimentos">Foods</string>
     <string name="log">Log</string>
 
+    //******************TERMOS DE USO*************//
+    <string name="termos">IMPORTANTE! Esse aplicativo ainda está na sua versão de testes, portanto ele deve ser usado como um guia e não como verdade absoluta. Recomenda-se comparar os resultados com outros métodos de contagem de carboidrato antes de tomar qualquer decisão. Caso clique em CONTINUAR, você concorda com nossos <a href="https://www.diabetesdeprecisao.com/termos-de-uso">Termos de Uso</a></string>
 
 </resources>
